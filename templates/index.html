@@ -511,6 +511,9 @@
 
     <!-- Floating Theme Customizer Toolbar -->
     <div style="position: absolute; top: 1.5rem; right: 1.5rem; display: flex; gap: 0.5rem; z-index: 10;">
+        <button onclick="openCookiesModal()" class="btn-sub" title="YouTube Cookies" style="padding: 0.5rem; border-radius: 8px; font-size: 0.9rem; min-width: 36px; min-height: 36px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;">
+            <i class="fa-solid fa-cookie-bite"></i>
+        </button>
         <button onclick="toggleTheme()" class="btn-sub" style="padding: 0.5rem; border-radius: 8px; font-size: 0.9rem; min-width: 36px; min-height: 36px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;">
             <i id="theme-icon" class="fa-solid fa-sun"></i>
         </button>
@@ -1086,6 +1089,36 @@
         </div>
     </div>
 
+    <!-- YouTube Cookies Modal -->
+    <div id="cookies-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 1000; align-items: center; justify-content: center; padding: 1.5rem; animation: panelFadeIn 0.25s ease;">
+        <div class="main-card" style="width: 100%; max-width: 600px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: left;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h4 style="font-family: 'Outfit', sans-serif; font-weight: 700; color: var(--text-primary); font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fa-solid fa-cookie-bite" style="color: #ec4899;"></i> Konfigurasi Cookies YouTube (Bypass IP Block)
+                </h4>
+                <button onclick="closeCookiesModal()" style="background: transparent; border: none; color: var(--text-secondary); cursor: pointer; font-size: 1.25rem;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5;">
+                Jika unduhan dari YouTube mengalami error timeout/koneksi terputus di server Hugging Face (karena deteksi bot/rate-limit IP), Anda bisa menempelkan cookies akun YouTube Anda di sini untuk mengotentikasi request secara aman.
+            </p>
+            
+            <div style="font-size: 0.78rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 0.75rem; border-radius: 6px; color: var(--text-secondary);">
+                💡 <strong>Cara mendapatkan Cookies YouTube:</strong><br>
+                1. Pasang ekstensi chrome/firefox <strong>"Get cookies.txt LOCALLY"</strong>.<br>
+                2. Buka YouTube.com, klik ikon ekstensi tersebut, lalu pilih ekspor/salin seluruh cookies untuk youtube.com (dalam format Netscape).<br>
+                3. Tempel teks cookies tersebut di kolom bawah ini.
+            </div>
+            
+            <textarea id="yt-cookies-input" placeholder="# Netscape HTTP Cookie File&#10;.youtube.com&#10;..." style="width: 100%; height: 160px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.75rem; color: var(--text-primary); font-family: monospace; font-size: 0.75rem; resize: vertical; outline: none;"></textarea>
+            
+            <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 0.5rem;">
+                <button onclick="clearCookies()" class="btn-sub" style="padding: 0.5rem 1rem; font-size: 0.8rem; border-radius: 6px;">Hapus</button>
+                <button onclick="saveCookies()" class="btn" style="padding: 0.5rem 1.2rem; font-size: 0.8rem; border-radius: 6px;">Simpan Cookies</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast Notifications Area -->
     <div class="toast-container" id="toast-area"></div>
 
@@ -1098,6 +1131,35 @@
                 .replace(/>/g, "&gt;")
                 .replace(/"/g, "&quot;")
                 .replace(/'/g, "&#039;");
+        }
+
+        function openCookiesModal() {
+            const saved = localStorage.getItem('yt_cookies') || '';
+            document.getElementById('yt-cookies-input').value = saved;
+            document.getElementById('cookies-modal').style.display = 'flex';
+        }
+        
+        function closeCookiesModal() {
+            document.getElementById('cookies-modal').style.display = 'none';
+        }
+        
+        function saveCookies() {
+            const val = document.getElementById('yt-cookies-input').value.trim();
+            if (val) {
+                localStorage.setItem('yt_cookies', val);
+                showToast('Cookies YouTube berhasil disimpan ke browser!', 'success');
+            } else {
+                localStorage.removeItem('yt_cookies');
+                showToast('Cookies YouTube kosong, menghapus pengaturan sebelumnya.', 'info');
+            }
+            closeCookiesModal();
+        }
+        
+        function clearCookies() {
+            document.getElementById('yt-cookies-input').value = '';
+            localStorage.removeItem('yt_cookies');
+            showToast('Cookies YouTube berhasil dihapus!', 'info');
+            closeCookiesModal();
         }
 
         let currentTab = 'youtube';
@@ -1433,10 +1495,14 @@
             showStatus('Menganalisis Tautan...', 'Menghubungi server untuk memuat detail media...');
 
             try {
+                const cookiesVal = localStorage.getItem('yt_cookies') || '';
                 const response = await fetch('/api/info', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ url: url })
+                    body: JSON.stringify({ 
+                        url: url,
+                        cookies: cookiesVal
+                    })
                 });
 
                 const result = await response.json();
@@ -1543,10 +1609,15 @@
                 showStatus(`Unduhan Massal [${i+1}/${urls.length}]`, `Memproses berkas ke-${i+1} dari ${urls.length}...`);
                 
                 try {
+                    const cookiesVal = localStorage.getItem('yt_cookies') || '';
                     const response = await fetch('/api/download/start', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ url: url, format_type: formatType })
+                        body: JSON.stringify({ 
+                            url: url, 
+                            format_type: formatType,
+                            cookies: cookiesVal
+                        })
                     });
                     
                     if (response.ok) {
@@ -1672,6 +1743,7 @@
             }
 
             try {
+                const cookiesVal = localStorage.getItem('yt_cookies') || '';
                 const response = await fetch('/api/download/start', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -1681,7 +1753,8 @@
                         start_time: trimStart || null,
                         end_time: trimEnd || null,
                         scheduled_time: scheduledTime,
-                        speed_limit: speedLimit || null
+                        speed_limit: speedLimit || null,
+                        cookies: cookiesVal
                     })
                 });
 
