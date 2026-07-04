@@ -332,6 +332,11 @@ def run_yt_dlp_download(task_id, url, format_type, start_time=None, end_time=Non
         if speed_limit:
             ydl_opts['ratelimit'] = int(speed_limit) * 1024
             
+        # Force IPv4 and add timeout defaults to prevent connection timeouts on cloud hosts
+        ydl_opts['source_address'] = '0.0.0.0'
+        ydl_opts['nocheckcertificate'] = True
+        ydl_opts['socket_timeout'] = 15
+            
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=True)
             title = info.get('title', 'downloaded_media')

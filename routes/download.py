@@ -30,8 +30,9 @@ def get_info():
             'no_warnings': True,
             'skip_download': True,
             'playlistend': 30,
-            'socket_timeout': 10,
-            'nocheckcertificate': True
+            'socket_timeout': 15,
+            'nocheckcertificate': True,
+            'source_address': '0.0.0.0'
         }
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=False)
@@ -291,7 +292,10 @@ def download_subtitle():
             'subtitleslangs': [lang],
             'subtitlesformat': sub_format,
             'outtmpl': os.path.join(DOWNLOAD_DIR, f"{file_id}_%(title)s.%(ext)s"),
-            'quiet': True
+            'quiet': True,
+            'socket_timeout': 15,
+            'nocheckcertificate': True,
+            'source_address': '0.0.0.0'
         }
         
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -403,8 +407,9 @@ def search_videos():
             'no_warnings': True,
             'skip_download': True,
             'extract_flat': True,
-            'socket_timeout': 10,
-            'nocheckcertificate': True
+            'socket_timeout': 15,
+            'nocheckcertificate': True,
+            'source_address': '0.0.0.0'
         }
         search_query = f"ytsearch5:{query}"
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
