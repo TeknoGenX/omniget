@@ -1,6 +1,6 @@
 # Rekapitulasi Perbaikan Seluruh Bug & Keamanan OmniGet
 
-Kami telah melakukan audit mendalam terhadap seluruh struktur kode OmniGet dan berhasil mengidentifikasi serta memperbaiki total **12 bug dan kerentanan keamanan** secara otomatis.
+Kami telah melakukan audit mendalam terhadap seluruh struktur kode OmniGet dan berhasil mengidentifikasi serta memperbaiki total **13 bug dan kerentanan keamanan** secara otomatis.
 
 Aplikasi Anda kini sudah berada dalam kondisi yang sangat aman, stabil, dan siap digunakan.
 
@@ -71,3 +71,8 @@ Aplikasi Anda kini sudah berada dalam kondisi yang sangat aman, stabil, dan siap
 * **Status**: ✅ **Selesai Diperbaiki**
 * **Temuan**: Folder isolasi torrent `downloads/<task_id>/` yang gagal/batal diunduh tidak terdeteksi oleh pembersih berkas lama karena berupa direktori, menyisakan berkas sampah.
 * **Perbaikan**: Memperluas cakupan pembersihan agar dapat menghapus direktori secara rekursif (`shutil.rmtree`) jika umurnya telah melebihi 10 menit.
+
+### 13. Kegagalan Ekstraksi Player YouTube karena Versi yt-dlp Kedaluwarsa
+* **Status**: ✅ **Selesai Diperbaiki**
+* **Temuan**: Penguncian versi `yt-dlp==2024.03.10` di requirements.txt menyebabkan server gagal membaca struktur pemutaran video YouTube terbaru di tahun 2026.
+* **Perbaikan**: Menghapus penguncian versi spesifik pada pustaka `yt-dlp` di `requirements.txt` agar server selalu memasang versi terbaru `yt-dlp` rilis tahun 2026 saat melakukan *build*.
