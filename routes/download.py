@@ -45,8 +45,7 @@ def get_info():
             'playlistend': 30,
             'socket_timeout': 15,
             'nocheckcertificate': True,
-            'source_address': '0.0.0.0',
-            'impersonate': 'chrome'
+            'source_address': '0.0.0.0'
         }
         if temp_cookie_path:
             ydl_opts['cookiefile'] = temp_cookie_path
@@ -320,8 +319,7 @@ def download_subtitle():
             'quiet': True,
             'socket_timeout': 15,
             'nocheckcertificate': True,
-            'source_address': '0.0.0.0',
-            'impersonate': 'chrome'
+            'source_address': '0.0.0.0'
         }
         
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -435,8 +433,7 @@ def search_videos():
             'extract_flat': True,
             'socket_timeout': 15,
             'nocheckcertificate': True,
-            'source_address': '0.0.0.0',
-            'impersonate': 'chrome'
+            'source_address': '0.0.0.0'
         }
         search_query = f"ytsearch5:{query}"
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
