@@ -94,23 +94,27 @@ def safe_requests_head(url, **kwargs):
 def sanitize_netscape_cookies(cookies_text):
     """
     Sanitize Netscape cookies text. Standardizes any space-separated columns
-    into tab-separated columns so that yt-dlp/curl can parse them properly.
+    into tab-separated columns so that yt-dlp/curl can parse them properly,
+    and automatically re-assembles any wrapped lines.
     """
     if not cookies_text:
         return ""
         
-    clean_lines = []
+    lines = []
     for line in cookies_text.splitlines():
         line = line.strip()
         if not line:
-            clean_lines.append("")
             continue
+        lines.append(line)
+        
+    assembled_items = []
+    for line in lines:
         if line.startswith("#"):
-            clean_lines.append(line)
+            assembled_items.append(line)
             continue
             
         parts = line.split()
-        if len(parts) >= 6:
+        if len(parts) >= 6 and (parts[0].startswith('.') or 'youtube' in parts[0] or parts[1] in ['TRUE', 'FALSE']):
             domain = parts[0]
             flag = parts[1]
             path = parts[2]
@@ -118,8 +122,29 @@ def sanitize_netscape_cookies(cookies_text):
             expiration = parts[4]
             name = parts[5]
             value = " ".join(parts[6:]) if len(parts) > 6 else ""
-            clean_lines.append(f"{domain}\t{flag}\t{path}\t{secure}\t{expiration}\t{name}\t{value}")
+            assembled_items.append({
+                'domain': domain,
+                'flag': flag,
+                'path': path,
+                'secure': secure,
+                'expiration': expiration,
+                'name': name,
+                'value': value
+            })
         else:
-            clean_lines.append(line)
+            if assembled_items and isinstance(assembled_items[-1], dict):
+                if assembled_items[-1]['value']:
+                    assembled_items[-1]['value'] += line
+                else:
+                    assembled_items[-1]['value'] = line
+            else:
+                assembled_items.append(line)
+                
+    output_lines = []
+    for item in assembled_items:
+        if isinstance(item, dict):
+            output_lines.append(f"{item['domain']}\t{item['flag']}\t{item['path']}\t{item['secure']}\t{item['expiration']}\t{item['name']}\t{item['value']}")
+        else:
+            output_lines.append(item)
             
-    return "\n".join(clean_lines)
+    return "\n".join(output_lines)
