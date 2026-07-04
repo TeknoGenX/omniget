@@ -1,4 +1,5 @@
 import os
+import tempfile
 import uuid
 import time
 import urllib.parse
@@ -18,11 +19,23 @@ download_bp = Blueprint('download', __name__)
 def get_info():
     data = request.json or {}
     url = data.get('url')
+    cookies_data = data.get('cookies')
     if not url:
         return jsonify({'success': False, 'error': 'URL is required'}), 400
         
     if not is_safe_url(url):
         return jsonify({'success': False, 'error': 'URL tidak valid atau diblokir demi alasan keamanan'}), 400
+
+    temp_cookie_path = None
+    if cookies_data:
+        try:
+            from core.security import sanitize_netscape_cookies
+            sanitized = sanitize_netscape_cookies(cookies_data)
+            with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False) as temp_f:
+                temp_f.write(sanitized)
+                temp_cookie_path = temp_f.name
+        except Exception as e:
+            return jsonify({'success': False, 'error': f'Gagal memproses cookies: {str(e)}'}), 400
 
     try:
         ydl_opts = {
@@ -32,8 +45,12 @@ def get_info():
             'playlistend': 30,
             'socket_timeout': 15,
             'nocheckcertificate': True,
-            'source_address': '0.0.0.0'
+            'source_address': '0.0.0.0',
+            'impersonate': 'chrome'
         }
+        if temp_cookie_path:
+            ydl_opts['cookiefile'] = temp_cookie_path
+
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=False)
             
@@ -104,6 +121,12 @@ def get_info():
             })
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
+    finally:
+        if temp_cookie_path and os.path.exists(temp_cookie_path):
+            try:
+                os.unlink(temp_cookie_path)
+            except Exception:
+                pass
 
 @download_bp.route('/api/download/start', methods=['POST'])
 def start_download():
@@ -113,8 +136,9 @@ def start_download():
     format_type = data.get('format_type', '1080p')
     start_time = data.get('start_time')
     end_time = data.get('end_time')
-    scheduled_time = data.get('scheduled_time')
     speed_limit = data.get('speed_limit')
+    scheduled_time = data.get('scheduled_time')
+    cookies_data = data.get('cookies')
     
     if not url:
         return jsonify({'success': False, 'error': 'URL is required'}), 400
@@ -122,9 +146,8 @@ def start_download():
     if not url.startswith('magnet:'):
         if not is_safe_url(url):
             return jsonify({'success': False, 'error': 'URL tidak valid atau diblokir demi alasan keamanan'}), 400
-            
+
     time_format_regex = re.compile(r'^(?:\d{1,2}:)?\d{1,2}:\d{1,2}$|^\d+$')
-    
     if start_time and not time_format_regex.match(str(start_time)):
         return jsonify({'success': False, 'error': 'Format start_time tidak valid (gunakan HH:MM:SS, MM:SS, atau detik)'}), 400
         
@@ -164,7 +187,7 @@ def start_download():
         def run_later():
             if task_id in download_tasks:
                 download_tasks[task_id]['status'] = 'downloading'
-            run_yt_dlp_download(task_id, url, format_type, start_time, end_time, speed_limit)
+            run_yt_dlp_download(task_id, url, format_type, start_time, end_time, speed_limit, cookies_data)
             
         threading.Timer(delay, run_later).start()
         return jsonify({'success': True, 'task_id': task_id, 'scheduled': True})
@@ -180,7 +203,7 @@ def start_download():
         'created_at': time.time()
     }
     
-    threading.Thread(target=run_yt_dlp_download, args=(task_id, url, format_type, start_time, end_time, speed_limit), daemon=True).start()
+    threading.Thread(target=run_yt_dlp_download, args=(task_id, url, format_type, start_time, end_time, speed_limit, cookies_data), daemon=True).start()
     return jsonify({'success': True, 'task_id': task_id})
 
 @download_bp.route('/api/download/status/<task_id>', methods=['GET'])
@@ -295,7 +318,8 @@ def download_subtitle():
             'quiet': True,
             'socket_timeout': 15,
             'nocheckcertificate': True,
-            'source_address': '0.0.0.0'
+            'source_address': '0.0.0.0',
+            'impersonate': 'chrome'
         }
         
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -409,7 +433,8 @@ def search_videos():
             'extract_flat': True,
             'socket_timeout': 15,
             'nocheckcertificate': True,
-            'source_address': '0.0.0.0'
+            'source_address': '0.0.0.0',
+            'impersonate': 'chrome'
         }
         search_query = f"ytsearch5:{query}"
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:

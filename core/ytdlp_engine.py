@@ -3,6 +3,7 @@ import re
 import uuid
 import time
 import threading
+import tempfile
 import subprocess
 import requests
 import urllib.parse
@@ -234,10 +235,23 @@ def make_progress_hook(task_id):
                 download_tasks[task_id]['progress'] = 100.0
     return hook
 
-def run_yt_dlp_download(task_id, url, format_type, start_time=None, end_time=None, speed_limit=None):
+def run_yt_dlp_download(task_id, url, format_type, start_time=None, end_time=None, speed_limit=None, cookies_data=None):
     file_id = task_id
     filepath = None
+    temp_cookie_path = None
     try:
+        if cookies_data:
+            try:
+                from core.security import sanitize_netscape_cookies
+                sanitized = sanitize_netscape_cookies(cookies_data)
+                with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False) as temp_f:
+                    temp_f.write(sanitized)
+                    temp_cookie_path = temp_f.name
+            except Exception as e:
+                if task_id in download_tasks:
+                    download_tasks[task_id]['status'] = 'failed'
+                    download_tasks[task_id]['error'] = f'Gagal memproses cookies: {str(e)}'
+                return
         outtmpl = os.path.join(DOWNLOAD_DIR, f"{file_id}_%(title)s.%(ext)s")
         
         is_audio = False
@@ -336,6 +350,9 @@ def run_yt_dlp_download(task_id, url, format_type, start_time=None, end_time=Non
         ydl_opts['source_address'] = '0.0.0.0'
         ydl_opts['nocheckcertificate'] = True
         ydl_opts['socket_timeout'] = 15
+        ydl_opts['impersonate'] = 'chrome'
+        if temp_cookie_path:
+            ydl_opts['cookiefile'] = temp_cookie_path
             
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=True)
@@ -401,6 +418,12 @@ def run_yt_dlp_download(task_id, url, format_type, start_time=None, end_time=Non
                 'status': 'failed',
                 'error': str(e)
             })
+    finally:
+        if temp_cookie_path and os.path.exists(temp_cookie_path):
+            try:
+                os.unlink(temp_cookie_path)
+            except Exception:
+                pass
 
 def run_generic_download(task_id, url, speed_limit=None):
     try:

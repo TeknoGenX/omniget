@@ -90,3 +90,36 @@ def safe_requests_head(url, **kwargs):
             return response
             
     raise requests.exceptions.TooManyRedirects("Exceeded maximum redirects allowed under SSRF protection.")
+
+def sanitize_netscape_cookies(cookies_text):
+    """
+    Sanitize Netscape cookies text. Standardizes any space-separated columns
+    into tab-separated columns so that yt-dlp/curl can parse them properly.
+    """
+    if not cookies_text:
+        return ""
+        
+    clean_lines = []
+    for line in cookies_text.splitlines():
+        line = line.strip()
+        if not line:
+            clean_lines.append("")
+            continue
+        if line.startswith("#"):
+            clean_lines.append(line)
+            continue
+            
+        parts = line.split()
+        if len(parts) >= 6:
+            domain = parts[0]
+            flag = parts[1]
+            path = parts[2]
+            secure = parts[3]
+            expiration = parts[4]
+            name = parts[5]
+            value = " ".join(parts[6:]) if len(parts) > 6 else ""
+            clean_lines.append(f"{domain}\t{flag}\t{path}\t{secure}\t{expiration}\t{name}\t{value}")
+        else:
+            clean_lines.append(line)
+            
+    return "\n".join(clean_lines)
