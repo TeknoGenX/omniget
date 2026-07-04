@@ -120,6 +120,8 @@ def get_info():
                 'subtitles': subtitles_list
             })
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         return jsonify({'success': False, 'error': str(e)}), 500
     finally:
         if temp_cookie_path and os.path.exists(temp_cookie_path):
