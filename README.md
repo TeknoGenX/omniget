@@ -1,3 +1,13 @@
+---
+title: OmniGet
+emoji: ☁️
+colorFrom: purple
+colorTo: indigo
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # OmniGet - Universal Media Downloader & P2P Torrent Client
 
 OmniGet adalah aplikasi web pengunduh media multi-fungsi berskala premium berbasis Python (Flask) dan antarmuka web modern (Vanilla HTML/CSS/JS dengan visual Glassmorphism). Aplikasi ini dirancang untuk memberikan pengalaman pengunduhan yang cepat, aman, dan tanpa iklan untuk berbagai jenis konten digital.
