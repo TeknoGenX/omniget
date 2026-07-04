@@ -350,6 +350,12 @@ def run_yt_dlp_download(task_id, url, format_type, start_time=None, end_time=Non
         ydl_opts['source_address'] = '0.0.0.0'
         ydl_opts['nocheckcertificate'] = True
         ydl_opts['socket_timeout'] = 15
+        ydl_opts['extractor_args'] = {
+            'youtubetab': {
+                'skip': ['authcheck']
+            }
+        }
+        ydl_opts['compat_options'] = {'prefer-legacy-http-handler'}
         if temp_cookie_path:
             ydl_opts['cookiefile'] = temp_cookie_path
             

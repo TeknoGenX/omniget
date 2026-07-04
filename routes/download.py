@@ -45,7 +45,14 @@ def get_info():
             'playlistend': 30,
             'socket_timeout': 15,
             'nocheckcertificate': True,
-            'source_address': '0.0.0.0'
+            'source_address': '0.0.0.0',
+            'extractor_args': {
+                'youtubetab': {
+                    'skip': ['authcheck']
+                }
+            },
+            'compat_options': {'prefer-legacy-http-handler'},
+            'ignore_no_formats_error': True
         }
         if temp_cookie_path:
             ydl_opts['cookiefile'] = temp_cookie_path
@@ -319,7 +326,13 @@ def download_subtitle():
             'quiet': True,
             'socket_timeout': 15,
             'nocheckcertificate': True,
-            'source_address': '0.0.0.0'
+            'source_address': '0.0.0.0',
+            'extractor_args': {
+                'youtubetab': {
+                    'skip': ['authcheck']
+                }
+            },
+            'compat_options': {'prefer-legacy-http-handler'}
         }
         
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -433,7 +446,13 @@ def search_videos():
             'extract_flat': True,
             'socket_timeout': 15,
             'nocheckcertificate': True,
-            'source_address': '0.0.0.0'
+            'source_address': '0.0.0.0',
+            'extractor_args': {
+                'youtubetab': {
+                    'skip': ['authcheck']
+                }
+            },
+            'compat_options': {'prefer-legacy-http-handler'}
         }
         search_query = f"ytsearch5:{query}"
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
