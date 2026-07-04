@@ -1,0 +1,2616 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OmniGet - Download Video YouTube & Media Downloader Gratis</title>
+    <meta name="description" content="Download video YouTube, playlist, MP3, gambar, torrent, dan seluruh media dari website apa saja secara gratis, cepat, dan tanpa iklan. Pengunduh media serbaguna OmniGet.">
+    <meta name="keywords" content="download video youtube, youtube downloader, download mp3 youtube, pengunduh video gratis, download torrent online, site grabber media, convert youtube to mp3, omniget">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="http://localhost:5000/">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:5000/">
+    <meta property="og:title" content="OmniGet - Download Video YouTube & Media Downloader Gratis">
+    <meta property="og:description" content="Download video YouTube, playlist, MP3, gambar, torrent, dan seluruh media dari website apa saja secara gratis, cepat, dan tanpa iklan.">
+    <meta property="og:image" content="http://localhost:5000/static/og-image.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="http://localhost:5000/">
+    <meta property="twitter:title" content="OmniGet - Download Video YouTube & Media Downloader Gratis">
+    <meta property="twitter:description" content="Download video YouTube, playlist, MP3, gambar, torrent, dan seluruh media dari website apa saja secara gratis, cepat, dan tanpa iklan.">
+    <meta property="twitter:image" content="http://localhost:5000/static/og-image.jpg">
+
+    <!-- Schema.org JSON-LD Structured Data for Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "OmniGet",
+      "url": "http://localhost:5000/",
+      "description": "Download video YouTube, playlist, MP3, gambar, torrent, dan seluruh media dari website apa saja secara gratis dan cepat.",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "All",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0.00",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+    <!-- Google Fonts: Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js for Analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        :root {
+            --hue-1: 263; /* Purple */
+            --hue-2: 217; /* Blue */
+            --hue-accent: 330; /* Pink */
+            
+            --bg-primary: #070712;
+            --bg-secondary: rgba(18, 18, 38, 0.65);
+            --bg-input: rgba(10, 10, 24, 0.55);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-focus: hsl(var(--hue-1), 85%, 65%);
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            
+            --primary-gradient: linear-gradient(135deg, hsl(var(--hue-1), 85%, 65%) 0%, hsl(var(--hue-2), 85%, 60%) 100%);
+            --accent-gradient: linear-gradient(135deg, hsl(var(--hue-accent), 85%, 60%) 0%, hsl(var(--hue-1), 85%, 65%) 100%);
+            --emerald-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            
+            --glow-color: hsla(var(--hue-1), 85%, 65%, 0.15);
+            --shadow-card: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+            --transition-speed: 0.25s;
+        }
+
+        body.light-theme {
+            --bg-primary: #f3f4f6;
+            --bg-secondary: rgba(255, 255, 255, 0.85);
+            --bg-input: rgba(255, 255, 255, 0.95);
+            --border-color: rgba(0, 0, 0, 0.08);
+            --text-primary: #1f2937;
+            --text-secondary: #4b5563;
+            --shadow-card: 0 12px 40px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        body.light-theme .glowing-orb {
+            opacity: 0.15;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            overflow-x: hidden;
+            position: relative;
+            padding: 3rem 1.5rem;
+            transition: background-color var(--transition-speed);
+        }
+
+        /* Ambient Background Glows */
+        .glowing-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(150px);
+            opacity: 0.35;
+            z-index: -1;
+            pointer-events: none;
+            animation: floatOrb 25s infinite ease-in-out;
+        }
+
+        .glowing-orb-1 {
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, hsl(var(--hue-1), 90%, 60%) 0%, transparent 70%);
+            top: -100px;
+            left: -100px;
+            animation-duration: 20s;
+        }
+
+        .glowing-orb-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, hsl(var(--hue-2), 90%, 55%) 0%, transparent 70%);
+            bottom: -150px;
+            right: -100px;
+            animation-duration: 28s;
+        }
+
+        .glowing-orb-3 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, hsl(var(--hue-accent), 85%, 60%) 0%, transparent 70%);
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-duration: 24s;
+        }
+
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            33% { transform: translate(30px, -50px) scale(1.05) rotate(120deg); }
+            66% { transform: translate(-20px, 40px) scale(0.95) rotate(240deg); }
+            100% { transform: translate(0, 0) scale(1) rotate(360deg); }
+        }
+
+        /* App Container Layout */
+        .app-container {
+            width: 100%;
+            max-width: 800px;
+            z-index: 1;
+        }
+
+        /* Header design */
+        header {
+            text-align: center;
+            margin-bottom: 2.25rem;
+        }
+
+        header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #ffffff, #c084fc, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.03em;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        body.light-theme header h1 {
+            background: linear-gradient(to right, #111827, #6b21a8, #1e3a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            font-weight: 400;
+        }
+
+        /* Glassmorphism Main Card */
+        .main-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            box-shadow: var(--shadow-card);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            padding: 2.25rem;
+            margin-bottom: 1.5rem;
+            transition: border-color var(--transition-speed);
+        }
+
+        /* Tabs Navigation Row */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 0.35rem;
+            margin-bottom: 2rem;
+            gap: 0.25rem;
+        }
+
+        .tab-btn {
+            flex: 1;
+            min-width: 110px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all var(--transition-speed);
+        }
+
+        .tab-btn:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .tab-btn.active {
+            color: #ffffff;
+            background: var(--primary-gradient);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.25);
+        }
+
+        /* Content Forms */
+        .tab-content {
+            display: none;
+            animation: panelFadeIn var(--transition-speed) ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes panelFadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Form Controls */
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .input-label {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            width: 100%;
+        }
+
+        .input-wrapper i.input-icon {
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            pointer-events: none;
+            transition: color var(--transition-speed);
+        }
+
+        .input-control {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 0.95rem 1.25rem 0.95rem 3rem;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all var(--transition-speed);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.15);
+        }
+
+        .input-control:focus {
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 4px var(--glow-color), inset 0 2px 4px rgba(0,0,0,0.08);
+        }
+
+        /* Action Buttons */
+        .btn {
+            width: 100%;
+            background: var(--primary-gradient);
+            border: none;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 0.95rem 1.75rem;
+            border-radius: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.65rem;
+            transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.35);
+        }
+
+        /* Media Info Layout */
+        .media-info-card {
+            background: rgba(5, 5, 10, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 1.25rem;
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1.25rem;
+            animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .thumbnail-container {
+            width: 200px;
+            height: 112px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            flex-shrink: 0;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .thumbnail-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .duration-badge {
+            position: absolute;
+            bottom: 6px;
+            right: 6px;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 1.5px 5px;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .media-details {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-grow: 1;
+            overflow: hidden;
+        }
+
+        .media-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            line-height: 1.35;
+            color: var(--text-primary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 0.35rem;
+        }
+
+        .media-meta {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.85rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .btn-sub {
+            padding: 0.65rem 1rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.45rem;
+            cursor: pointer;
+            border: none;
+            transition: all var(--transition-speed);
+        }
+
+        .btn-mp4 {
+            background: var(--primary-gradient);
+            color: #ffffff;
+        }
+
+        /* Status & Toast */
+        .status-container {
+            display: none;
+            background: rgba(5, 5, 10, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.25rem;
+            margin-top: 1.25rem;
+            align-items: center;
+            gap: 1.25rem;
+            animation: panelFadeIn var(--transition-speed) ease;
+        }
+
+        .toast-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            z-index: 100;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+            margin-top: 2rem;
+        }
+
+        footer a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        footer a:hover {
+            color: #8b5cf6;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.25rem;
+            }
+
+            .main-card {
+                padding: 1.5rem;
+            }
+
+            .media-info-card {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .thumbnail-container {
+                width: 100%;
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Gradient Orbs -->
+    <div class="glowing-orb glowing-orb-1"></div>
+    <div class="glowing-orb glowing-orb-2"></div>
+    <div class="glowing-orb glowing-orb-3"></div>
+
+    <!-- Floating Theme Customizer Toolbar -->
+    <div style="position: absolute; top: 1.5rem; right: 1.5rem; display: flex; gap: 0.5rem; z-index: 10;">
+        <button onclick="toggleTheme()" class="btn-sub" style="padding: 0.5rem; border-radius: 8px; font-size: 0.9rem; min-width: 36px; min-height: 36px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;">
+            <i id="theme-icon" class="fa-solid fa-sun"></i>
+        </button>
+        <select id="theme-color" onchange="changeColorTheme(this.value)" class="input-control" style="padding: 0.25rem 0.5rem; border-radius: 8px; font-size: 0.8rem; min-height: 36px; width: 110px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); outline: none;">
+            <option value="purple">Neon Purple</option>
+            <option value="cyberpunk">Cyberpunk</option>
+            <option value="emerald">Emerald</option>
+            <option value="rosegold">Rose Gold</option>
+        </select>
+    </div>
+
+    <div class="app-container">
+        <header>
+            <h1 id="app-title"><i class="fa-solid fa-cloud-arrow-down"></i> OmniGet - Media Downloader Gratis</h1>
+            <p>Download video, audio, gambar, animasi, torrent (P2P), dan berkas langsung (ISO/EXE/ZIP) dalam satu platform terpadu.</p>
+        </header>
+
+        <!-- Main Workspace Card -->
+        <div class="main-card">
+            <!-- Navigation Tabs -->
+            <div class="tabs" role="tablist">
+                <button class="tab-btn active" id="tab-youtube" onclick="switchTab('youtube')" role="tab" aria-selected="true">
+                    <i class="fa-solid fa-video"></i> Video / Audio
+                </button>
+                <button class="tab-btn" id="tab-image" onclick="switchTab('image')" role="tab" aria-selected="false">
+                    <i class="fa-regular fa-image"></i> Gambar
+                </button>
+                <button class="tab-btn" id="tab-animation" onclick="switchTab('animation')" role="tab" aria-selected="false">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Animasi
+                </button>
+                <button class="tab-btn" id="tab-grabber" onclick="switchTab('grabber')" role="tab" aria-selected="false">
+                    <i class="fa-solid fa-spider"></i> Site Grabber
+                </button>
+                <button class="tab-btn" id="tab-torrent" onclick="switchTab('torrent')" role="tab" aria-selected="false">
+                    <i class="fa-solid fa-cloud-arrow-down"></i> Torrent
+                </button>
+                <button class="tab-btn" id="tab-direct" onclick="switchTab('direct')" role="tab" aria-selected="false">
+                    <i class="fa-solid fa-file-arrow-down"></i> Direct File
+                </button>
+                <button class="tab-btn" id="tab-analytics" onclick="switchTab('analytics')" role="tab" aria-selected="false">
+                    <i class="fa-solid fa-chart-pie"></i> Analitik
+                </button>
+            </div>
+
+            <!-- Video / Audio Tab Content -->
+            <div class="tab-content active" id="content-youtube" role="tabpanel">
+                <div class="input-group">
+                    <label class="input-label" for="yt-url">
+                        <i class="fa-solid fa-link"></i> URL Video / Audio (YouTube, TikTok, Instagram, Twitter, dll.)
+                    </label>
+                    <div class="input-wrapper">
+                        <input type="text" id="yt-url" class="input-control" placeholder="Masukkan tautan video YouTube, TikTok, Instagram, Facebook, dll.">
+                        <i class="fa-solid fa-film input-icon"></i>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 0.5rem; width: 100%;">
+                    <button class="btn" id="btn-analyze" onclick="analyzeYoutube()" style="flex-grow: 1;">
+                        <i class="fa-solid fa-magnifying-glass"></i> Analisis Tautan
+                    </button>
+                    <button class="btn" id="btn-search" onclick="searchYoutube()" style="background: var(--accent-gradient); flex-shrink: 0; padding: 1rem; width: auto; min-width: 140px; box-shadow: 0 4px 20px rgba(236,72,153,0.25);">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i> Cari Video
+                    </button>
+                </div>
+
+                <!-- YouTube Search Results -->
+                <div id="yt-search-results" style="display: none; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; animation: slideDown 0.3s ease;">
+                    <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary);"><i class="fa-solid fa-square-poll-horizontal"></i> Hasil Pencarian</h4>
+                    <div id="search-results-list" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <!-- Results items -->
+                    </div>
+                </div>
+
+                <!-- YouTube Analysis Card -->
+                <div class="media-info-card" id="yt-media-card" style="display: none;">
+                    <div class="thumbnail-container">
+                        <img id="yt-thumb" class="thumbnail-img" src="" alt="Thumbnail Video">
+                        <span id="yt-duration" class="duration-badge">0:00</span>
+                    </div>
+                    <div class="media-details">
+                        <div>
+                            <h3 id="yt-title" class="media-title">Judul Video</h3>
+                            <div class="media-meta" style="margin-bottom: 0.75rem; flex-wrap: wrap; display: flex; gap: 1rem;">
+                                <span><i class="fa-regular fa-user"></i> <span id="yt-uploader">Uploader</span></span>
+                                <span><i class="fa-regular fa-eye"></i> <span id="yt-views">0</span> kali tonton</span>
+                                <span style="cursor: pointer; color: #3b82f6; font-weight: 600;" onclick="downloadThumbnail()"><i class="fa-regular fa-image"></i> Unduh Cover HD</span>
+                            </div>
+                            
+                            <!-- Subtitles Downloader Section -->
+                            <div id="subtitles-section" style="display: none; margin-top: 0.75rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.75rem; flex-direction: column; gap: 0.5rem; width: 100%;">
+                                <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 0.3rem;">
+                                    <i class="fa-regular fa-closed-captioning" style="color: #10b981;"></i> Subtitel Tersedia
+                                </span>
+                                <div style="display: flex; gap: 0.5rem; width: 100%;">
+                                    <select id="yt-subtitle-lang" class="input-control" style="padding: 0.5rem; border-radius: 8px; flex-grow: 1; min-height: 38px; font-size: 0.85rem; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: var(--text-primary); outline: none;">
+                                        <!-- Subtitle options -->
+                                    </select>
+                                    <select id="yt-subtitle-format" class="input-control" style="padding: 0.5rem; border-radius: 8px; width: 80px; min-height: 38px; font-size: 0.85rem; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: var(--text-primary); outline: none;">
+                                        <option value="srt">SRT</option>
+                                        <option value="vtt">VTT</option>
+                                    </select>
+                                    <button class="btn-sub btn-mp4" onclick="downloadSubtitle()" style="padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.85rem; flex-shrink: 0; min-width: auto; background: var(--emerald-gradient); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);">
+                                        <i class="fa-solid fa-download"></i> Sub
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Format Converter & Trimmer Container -->
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.75rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.75rem; width: 100%;">
+                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                <div style="flex: 1; min-width: 100px;">
+                                    <label style="font-size: 0.75rem; color: var(--text-secondary); display: block; margin-bottom: 0.25rem;">Format</label>
+                                    <select id="yt-format" onchange="adjustQualityOptions()" class="input-control" style="padding: 0.4rem; border-radius: 8px; font-size: 0.85rem; min-height: 38px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: var(--text-primary); outline: none;">
+                                        <option value="mp4">Video MP4</option>
+                                        <option value="webm">Video WebM</option>
+                                        <option value="mkv">Video MKV</option>
+                                        <option value="mp3">Audio MP3</option>
+                                        <option value="m4a">Audio M4A</option>
+                                        <option value="wav">Audio WAV</option>
+                                    </select>
+                                </div>
+                                <div style="flex: 1; min-width: 100px;">
+                                    <label style="font-size: 0.75rem; color: var(--text-secondary); display: block; margin-bottom: 0.25rem;">Kualitas / Bitrate</label>
+                                    <select id="yt-quality" class="input-control" style="padding: 0.4rem; border-radius: 8px; font-size: 0.85rem; min-height: 38px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: var(--text-primary); outline: none;">
+                                        <option value="1080p_mp4">1080p (Full HD)</option>
+                                        <option value="720p_mp4">720p (HD)</option>
+                                        <option value="480p_mp4">480p (Medium)</option>
+                                        <option value="360p_mp4">360p (Low)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                 <div style="flex: 1; min-width: 90px;">
+                                     <label style="font-size: 0.75rem; color: var(--text-secondary); display: block; margin-bottom: 0.25rem;">Waktu Mulai (Trim)</label>
+                                     <input type="text" id="yt-trim-start" class="input-control" placeholder="00:00:00" style="padding: 0.4rem; border-radius: 8px; font-size: 0.85rem; min-height: 38px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: var(--text-primary); outline: none;">
+                                 </div>
+                                 <div style="flex: 1; min-width: 90px;">
+                                     <label style="font-size: 0.75rem; color: var(--text-secondary); display: block; margin-bottom: 0.25rem;">Waktu Selesai (Trim)</label>
+                                     <input type="text" id="yt-trim-end" class="input-control" placeholder="Opsional" style="padding: 0.4rem; border-radius: 8px; font-size: 0.85rem; min-height: 38px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: var(--text-primary); outline: none;">
+                                 </div>
+                                 <div style="flex: 1; min-width: 90px;">
+                                     <label style="font-size: 0.75rem; color: var(--text-secondary); display: block; margin-bottom: 0.25rem;"><i class="fa-solid fa-gauge-high"></i> Batas Kecepatan</label>
+                                     <select id="yt-speed-limit" class="input-control" style="padding: 0.4rem; border-radius: 8px; font-size: 0.85rem; min-height: 38px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: var(--text-primary); outline: none;">
+                                         <option value="">Tanpa Batas</option>
+                                         <option value="1024">1 MB/s</option>
+                                         <option value="512">500 KB/s</option>
+                                         <option value="100">100 KB/s</option>
+                                         <option value="50">50 KB/s</option>
+                                     </select>
+                                 </div>
+                             </div>
+                                <div style="margin-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.5rem;">
+                                    <label style="font-size: 0.75rem; color: var(--text-secondary); display: block; margin-bottom: 0.25rem;"><i class="fa-regular fa-clock"></i> Jadwalkan Unduhan (Opsional)</label>
+                                    <input type="datetime-local" id="yt-schedule" class="input-control" style="padding: 0.4rem; border-radius: 8px; font-size: 0.85rem; min-height: 38px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: var(--text-primary); outline: none; width: 100%;">
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: flex-end; margin-top: 0.25rem;">
+                                <button id="btn-youtube-start" class="btn-sub btn-mp4" onclick="downloadYoutubeStart()" style="padding: 0.75rem 1rem; border-radius: 12px; min-width: 140px;">
+                                    <i class="fa-solid fa-download"></i> Unduh
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Playlist Media Card -->
+                    <div class="media-info-card" id="yt-playlist-card" style="display: none; flex-direction: column; gap: 1rem; width: 100%;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.75rem; width: 100%;">
+                            <div>
+                                <h3 id="playlist-title" class="media-title" style="margin-bottom: 0.25rem;">Judul Playlist</h3>
+                                <span style="font-size: 0.8rem; color: var(--text-secondary);"><i class="fa-solid fa-list"></i> Playlist YouTube</span>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem; align-items: center; flex-shrink: 0;">
+                                <label style="font-size: 0.8rem; color: var(--text-secondary); cursor: pointer;"><input type="checkbox" id="playlist-select-all" onchange="toggleSelectAllPlaylist(this.checked)" style="margin-right: 0.3rem;">Pilih Semua</label>
+                            </div>
+                        </div>
+                        
+                        <!-- Videos List -->
+                        <div id="playlist-videos-list" style="max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.5rem; padding-right: 0.25rem; width: 100%;">
+                            <!-- Playlist video rows -->
+                        </div>
+                        
+                        <!-- Format Selection and Batch Download -->
+                        <div style="display: flex; gap: 0.75rem; align-items: flex-end; flex-wrap: wrap; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.75rem; width: 100%;">
+                            <div style="flex: 1; min-width: 120px;">
+                                <label style="font-size: 0.75rem; color: var(--text-secondary); display: block; margin-bottom: 0.25rem;">Format Unduhan</label>
+                                <select id="playlist-format" class="input-control" style="padding: 0.4rem; border-radius: 8px; font-size: 0.85rem; min-height: 38px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: var(--text-primary); outline: none;">
+                                    <option value="1080p_mp4">Video MP4 (1080p maks)</option>
+                                    <option value="720p_mp4">Video MP4 (720p maks)</option>
+                                    <option value="360p_mp4">Video MP4 (360p maks)</option>
+                                    <option value="mp3_192k">Audio MP3 (192kbps)</option>
+                                </select>
+                            </div>
+                            <button class="btn-sub btn-mp4" onclick="downloadSelectedPlaylist()" style="padding: 0.75rem 1rem; border-radius: 10px; min-height: 38px; min-width: 140px; margin-bottom: 0px;">
+                                <i class="fa-solid fa-download"></i> Unduh Terpilih
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Tab Content -->
+                <div class="tab-content" id="content-image" role="tabpanel">
+                    <div class="input-group">
+                        <label class="input-label" for="img-url">
+                            <i class="fa-solid fa-link"></i> URL Gambar Langsung
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="text" id="img-url" class="input-control" placeholder="https://example.com/image.jpg">
+                            <i class="fa-regular fa-image input-icon"></i>
+                        </div>
+                    </div>
+                    <button class="btn" id="btn-img-download" onclick="downloadGeneric('image')">
+                        <i class="fa-solid fa-download"></i> Unduh Gambar
+                    </button>
+                </div>
+
+                <!-- Animation Tab Content -->
+                <div class="tab-content" id="content-animation" role="tabpanel">
+                    <div class="input-group">
+                        <label class="input-label" for="anim-url">
+                            <i class="fa-solid fa-link"></i> URL Animasi (GIF / WebP / Lottie JSON)
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="text" id="anim-url" class="input-control" placeholder="https://example.com/animation.gif">
+                            <i class="fa-solid fa-wand-magic-sparkles input-icon"></i>
+                        </div>
+                    </div>
+                    <button class="btn" id="btn-anim-download" onclick="downloadGeneric('animation')">
+                        <i class="fa-solid fa-download"></i> Unduh Animasi
+                    </button>
+                </div>
+
+                <!-- Analytics Tab Content -->
+                <div class="tab-content" id="content-analytics" role="tabpanel">
+                    <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);"><i class="fa-solid fa-chart-line"></i> Analitik Unduhan Anda</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.5rem;">Visualisasi data unduhan media Anda secara privat di browser ini.</p>
+                    
+                    <div style="position: relative; width: 100%; height: 260px; margin-bottom: 1.5rem; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <canvas id="analytics-chart" style="width: 100%; height: 100%;"></canvas>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem; justify-content: space-around; flex-wrap: wrap; width: 100%;">
+                        <div class="main-card" style="flex: 1; min-width: 140px; padding: 1rem; text-align: center; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); box-shadow: none; margin-top: 0px;">
+                            <span style="font-size: 0.78rem; color: var(--text-secondary); display: block; margin-bottom: 0.25rem;">Total Unduhan</span>
+                            <strong id="stat-total" style="font-size: 1.5rem; color: var(--text-primary);">0</strong>
+                        </div>
+                        <div class="main-card" style="flex: 1; min-width: 140px; padding: 1rem; text-align: center; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); box-shadow: none; margin-top: 0px;">
+                            <span style="font-size: 0.78rem; color: var(--text-secondary); display: block; margin-bottom: 0.25rem;">Bandwidth Dihemat</span>
+                            <strong id="stat-saved" style="font-size: 1.5rem; color: #10b981;">0 MB</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Site Grabber Tab Content -->
+                <div class="tab-content" id="content-grabber" role="tabpanel">
+                    <div class="input-group">
+                        <label class="input-label" for="grab-url">
+                            <i class="fa-solid fa-globe"></i> URL Website yang akan Di-grab
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="text" id="grab-url" class="input-control" placeholder="https://example.com">
+                            <i class="fa-solid fa-spider input-icon"></i>
+                        </div>
+                    </div>
+                    <button class="btn" id="btn-grab" onclick="grabSiteMedia()">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i> Grab Media Situs
+                    </button>
+                    
+                    <!-- Grabber Results Card -->
+                    <div class="main-card" id="grabber-results-card" style="margin-top: 1rem; display: none; flex-direction: column; gap: 1rem; padding: 1.5rem; width: 100%;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.75rem;">
+                            <h4 style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--text-primary);">
+                                <i class="fa-solid fa-list-check" style="color: #10b981;"></i> Media yang Ditemukan
+                            </h4>
+                            <span id="grab-results-count" style="font-size: 0.8rem; color: var(--text-secondary);">0 Berkas</span>
+                        </div>
+                        
+                        <!-- Filter buttons -->
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <button class="btn-sub active-filter" onclick="filterGrabbed('all')" style="padding: 0.3rem 0.6rem; font-size: 0.75rem; border-radius: 6px;">Semua</button>
+                            <button class="btn-sub" onclick="filterGrabbed('video')" style="padding: 0.3rem 0.6rem; font-size: 0.75rem; border-radius: 6px;">Video</button>
+                            <button class="btn-sub" onclick="filterGrabbed('audio')" style="padding: 0.3rem 0.6rem; font-size: 0.75rem; border-radius: 6px;">Audio</button>
+                            <button class="btn-sub" onclick="filterGrabbed('image')" style="padding: 0.3rem 0.6rem; font-size: 0.75rem; border-radius: 6px;">Gambar</button>
+                            <button class="btn-sub" onclick="filterGrabbed('document')" style="padding: 0.3rem 0.6rem; font-size: 0.75rem; border-radius: 6px;">Dokumen</button>
+                        </div>
+                        
+                        <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem;">
+                            <input type="checkbox" id="grab-select-all" onchange="toggleSelectAllGrab(this.checked)" checked style="cursor: pointer;">
+                            <label for="grab-select-all" style="cursor: pointer; color: var(--text-secondary);">Pilih Semua</label>
+                        </div>
+                        
+                        <div id="grab-list" style="display: flex; flex-direction: column; gap: 0.5rem; max-height: 250px; overflow-y: auto; padding-right: 0.25rem;">
+                            <!-- Grabbed items -->
+                        </div>
+                        
+                        <!-- Speed limit for batch download -->
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.75rem;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <label style="font-size: 0.8rem; color: var(--text-secondary);"><i class="fa-solid fa-gauge-high"></i> Pembatas Kecepatan:</label>
+                                <select id="grab-speed-limit" class="input-control" style="padding: 0.25rem 0.5rem; font-size: 0.8rem; min-height: 30px; width: 120px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: var(--text-primary);">
+                                    <option value="">Tanpa Batas</option>
+                                    <option value="1024">1 MB/s</option>
+                                    <option value="512">500 KB/s</option>
+                                    <option value="100">100 KB/s</option>
+                                    <option value="50">50 KB/s</option>
+                                </select>
+                            </div>
+                            
+                            <button class="btn-sub btn-mp4" onclick="downloadSelectedGrab()" style="padding: 0.5rem 1rem; border-radius: 8px;">
+                                <i class="fa-solid fa-download"></i> Unduh Terpilih
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Torrent Tab Content -->
+                <div class="tab-content" id="content-torrent" role="tabpanel">
+                    <div class="input-group">
+                        <label class="input-label" for="torrent-url">
+                            <i class="fa-solid fa-link"></i> Link Magnet
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="text" id="torrent-url" class="input-control" placeholder="magnet:?xt=urn:btih:...">
+                            <i class="fa-solid fa-magnet input-icon" style="color: #ef4444;"></i>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin: 0.75rem 0; color: var(--text-secondary); font-size: 0.8rem;">atau</div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">
+                            <i class="fa-regular fa-file-zipper"></i> Unggah File .torrent
+                        </label>
+                        <input type="file" id="torrent-file" accept=".torrent" class="input-control" style="padding: 0.5rem; min-height: 42px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 8px;">
+                    </div>
+                    
+                    <div style="display: flex; gap: 0.5rem; align-items: center; margin-top: 1rem;">
+                        <label style="font-size: 0.8rem; color: var(--text-secondary);"><i class="fa-solid fa-gauge-high"></i> Batas Kecepatan Torrent:</label>
+                        <select id="torrent-speed-limit" class="input-control" style="padding: 0.25rem 0.5rem; font-size: 0.8rem; min-height: 30px; width: 120px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: var(--text-primary);">
+                            <option value="">Tanpa Batas</option>
+                            <option value="1024">1 MB/s</option>
+                            <option value="512">500 KB/s</option>
+                            <option value="100">100 KB/s</option>
+                            <option value="50">50 KB/s</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn" id="btn-torrent-download" onclick="startTorrentDownload()" style="margin-top: 1rem;">
+                        <i class="fa-solid fa-circle-down"></i> Mulai Download Torrent
+                    </button>
+                </div>
+
+                <!-- Direct File Tab Content -->
+                <div class="tab-content" id="content-direct" role="tabpanel">
+                    <div class="input-group">
+                        <label class="input-label" for="direct-url">
+                            <i class="fa-solid fa-link"></i> URL File Langsung (ISO, EXE, APK, DEB, ZIP, dll.)
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="text" id="direct-url" class="input-control" placeholder="https://example.com/file.zip">
+                            <i class="fa-solid fa-file-arrow-down input-icon"></i>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 0.5rem; align-items: center; margin-top: 1rem;">
+                        <label style="font-size: 0.8rem; color: var(--text-secondary);"><i class="fa-solid fa-gauge-high"></i> Batas Kecepatan Unduh:</label>
+                        <select id="direct-speed-limit" class="input-control" style="padding: 0.25rem 0.5rem; font-size: 0.8rem; min-height: 30px; width: 120px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: var(--text-primary);">
+                            <option value="">Tanpa Batas</option>
+                            <option value="1024">1 MB/s</option>
+                            <option value="512">500 KB/s</option>
+                            <option value="100">100 KB/s</option>
+                            <option value="50">50 KB/s</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn" id="btn-direct-download" onclick="downloadDirectFile()" style="margin-top: 1rem;">
+                        <i class="fa-solid fa-circle-down"></i> Mulai Unduhan Langsung
+                    </button>
+                </div>
+
+                <!-- Global Status & Loading Card -->
+                <div class="status-container" id="status-card">
+                    <div class="spinner-wrapper" id="status-spinner">
+                        <div class="spinner"></div>
+                        <div class="spinner-inner"></div>
+                    </div>
+                    <div class="status-details" style="width: 100%;">
+                        <div class="status-title" id="status-title">Memproses Tautan...</div>
+                        <div class="status-desc" id="status-desc">Silakan tunggu sebentar. Kami sedang mengambil data media Anda.</div>
+                        
+                        <!-- Progress Bar Container -->
+                        <div id="progress-container" style="display: none; margin-top: 0.75rem; width: 100%;">
+                            <div style="background: rgba(255, 255, 255, 0.1); border-radius: 10px; height: 8px; overflow: hidden; width: 100%; position: relative; margin-bottom: 0.4rem;">
+                                <div id="progress-bar" style="background: var(--primary-gradient); height: 100%; width: 0%; transition: width 0.2s ease;"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-secondary);">
+                                <span id="progress-percent" style="font-weight: 700; color: var(--text-primary);">0%</span>
+                                <span id="progress-speed">Kecepatan: N/A</span>
+                                <span id="progress-eta">ETA: N/A</span>
+                            </div>
+                        </div>
+
+                        <!-- Success/QR Code Container -->
+                        <div id="success-container" style="display: none; margin-top: 1rem; width: 100%; text-align: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1rem; animation: panelFadeIn 0.3s ease;">
+                            <h4 style="color: #10b981; margin-bottom: 0.5rem;"><i class="fa-solid fa-circle-check"></i> Siap Diunduh!</h4>
+                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">Berkas telah selesai diproses di server.</p>
+                            
+                            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem;">
+                                <!-- QR Code Image -->
+                                <div style="background: white; padding: 0.5rem; border-radius: 12px; display: inline-block; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+                                    <img id="qr-code-img" src="" alt="QR Code Unduhan" style="width: 130px; height: 130px; display: block;">
+                                </div>
+                                <span style="font-size: 0.75rem; color: var(--text-secondary);"><i class="fa-solid fa-qrcode"></i> Pindai untuk unduh langsung ke Ponsel (pastikan satu jaringan Wi-Fi)</span>
+                                
+                                <!-- Lyrics Download Section -->
+                                <div id="success-lyrics" style="display: none; width: 100%; margin-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.5rem; flex-direction: column; gap: 0.3rem;">
+                                    <span style="font-size: 0.78rem; color: var(--text-secondary);"><i class="fa-solid fa-music"></i> Lirik lagu terdeteksi! Unduh berkas lirik:</span>
+                                    <div style="display: flex; gap: 0.5rem; justify-content: center;">
+                                        <a id="btn-lyrics-txt" href="" class="btn-sub" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); text-decoration: none;">
+                                            <i class="fa-regular fa-file-lines"></i> TXT (Polos)
+                                        </a>
+                                        <a id="btn-lyrics-lrc" href="" class="btn-sub" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); text-decoration: none;">
+                                            <i class="fa-regular fa-clock"></i> LRC (Sinkron)
+                                        </a>
+                                    </div>
+                                </div>
+                                
+                                <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem; flex-wrap: wrap; justify-content: center;">
+                                    <a id="btn-final-download" href="" class="btn-sub btn-mp4" style="text-decoration: none; padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 8px;">
+                                        <i class="fa-solid fa-download"></i> Unduh ke PC
+                                    </a>
+                                    <button id="btn-play-media" class="btn-sub" onclick="openMediaPlayer()" style="background: var(--accent-gradient); border: none; color: white; padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 8px; cursor: pointer; display: none; font-weight: 600;">
+                                        <i class="fa-solid fa-play"></i> Putar Media
+                                    </button>
+                                    <button id="btn-copy-link" class="btn-sub" onclick="copyDownloadLink()" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 8px; cursor: pointer;">
+                                        <i class="fa-solid fa-copy"></i> Salin Link
+                                    </button>
+                                    <button class="btn-sub" onclick="hideStatus()" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 8px; cursor: pointer;">
+                                        Tutup
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Downloads Card -->
+            <div class="main-card" id="history-card" style="padding: 1.5rem; display: none;">
+                <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; color: var(--text-primary);">
+                    <i class="fa-solid fa-clock-rotate-left" style="color: #8b5cf6;"></i> Riwayat Unduhan Terakhir
+                </h3>
+                <div id="history-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                    <!-- History items will be dynamically added here -->
+                </div>
+                <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
+                    <button class="btn-sub" id="btn-clear-history" onclick="clearHistory()" style="background: transparent; border: 1px solid rgba(255,255,255,0.1); color: var(--text-secondary); padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.8rem; display: flex; align-items: center; gap: 0.4rem; cursor: pointer; transition: all 0.2s;">
+                        <i class="fa-solid fa-trash-can"></i> Bersihkan Riwayat
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bookmarklet Card -->
+            <div class="main-card" id="bookmarklet-card" style="padding: 1.5rem;">
+                <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; color: var(--text-primary);">
+                    <i class="fa-solid fa-bookmark" style="color: #ec4899;"></i> Bookmarklet OmniGet Instan
+                </h3>
+                <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                    Seret tombol ungu di bawah ke bar bookmark browser Anda. Ketika sedang membuka video YouTube atau TikTok, klik bookmark tersebut untuk menganalisisnya secara otomatis di OmniGet.
+                </p>
+                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                    <a href="javascript:(function(){var url=window.location.href;var omniUrl=window.location.origin+'/?url='+encodeURIComponent(url);window.open(omniUrl,'_blank');})();" class="btn-sub" style="background: var(--accent-gradient); color: white; padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.82rem; text-decoration: none; font-weight: 700; cursor: grab; box-shadow: 0 4px 15px rgba(236,72,153,0.2); display: flex; align-items: center; gap: 0.3rem;">
+                        <i class="fa-solid fa-bookmark"></i> Seret ke Bookmark
+                    </a>
+                </div>
+            </div>
+
+            <!-- Server Status Dashboard -->
+            <div class="main-card" style="padding: 1rem; text-align: center; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); box-shadow: none;">
+                <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 2rem; font-size: 0.85rem; color: var(--text-secondary);">
+                    <span><i class="fa-solid fa-hard-drive" style="color: #8b5cf6; margin-right: 0.3rem;"></i> Disk Bebas: <strong id="srv-disk" style="color: var(--text-primary);">N/A</strong></span>
+                    <span><i class="fa-solid fa-folder-open" style="color: #ec4899; margin-right: 0.3rem;"></i> File Temp: <strong id="srv-files" style="color: var(--text-primary);">0</strong></span>
+                    <span><i class="fa-solid fa-spinner fa-spin" style="color: #10b981; margin-right: 0.3rem;"></i> Unduhan Aktif: <strong id="srv-tasks" style="color: var(--text-primary);">0</strong></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2026 <a href="#">OmniGet Project</a>. Dibuat dengan cinta untuk kemudahan unduhan media.</p>
+        </footer>
+    </div>
+
+    <!-- Media Player Modal -->
+    <div id="player-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 1000; align-items: center; justify-content: center; padding: 1.5rem; animation: panelFadeIn 0.25s ease;">
+        <div class="main-card" style="width: 100%; max-width: 700px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h4 id="player-title" style="font-family: 'Outfit', sans-serif; font-weight: 700; color: var(--text-primary); font-size: 1.1rem; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 80%;">Putar Media</h4>
+                <button onclick="closeMediaPlayer()" style="background: transparent; border: none; color: var(--text-secondary); cursor: pointer; font-size: 1.25rem;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <!-- Video Element Container -->
+            <div id="player-video-container" style="width: 100%; aspect-ratio: 16/9; background: black; border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color);">
+                <video id="media-video-el" controls style="width: 100%; height: 100%; display: block;"></video>
+            </div>
+            
+            <!-- Audio Element Container -->
+            <div id="player-audio-container" style="width: 100%; display: none; background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); padding: 1.5rem; border-radius: 12px; align-items: center; justify-content: center;">
+                <audio id="media-audio-el" controls style="width: 100%;"></audio>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications Area -->
+    <div class="toast-container" id="toast-area"></div>
+
+    <script>
+        function escapeHtml(text) {
+            if (text === null || text === undefined) return '';
+            return String(text)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        let currentTab = 'youtube';
+        let currentMediaInfo = null; // Store title, url, thumbnail, subtitles
+        let analyticsChartInstance = null;
+
+        // Load download history, server status, and theme settings on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            renderHistory();
+            updateServerStatus();
+            setInterval(updateServerStatus, 10000);
+            
+            // Request Notification permissions
+            if ("Notification" in window && Notification.permission === "default") {
+                Notification.requestPermission();
+            }
+            
+            // Restore theme & color settings
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-theme');
+                document.getElementById('theme-icon').className = 'fa-solid fa-moon';
+            }
+            
+            const savedColor = localStorage.getItem('color-theme');
+            if (savedColor) {
+                document.getElementById('theme-color').value = savedColor;
+                changeColorTheme(savedColor);
+            }
+            
+            // Initial quality options
+            adjustQualityOptions();
+            
+            // Bookmarklet integration: auto-populate URL if present in query param
+            const urlParams = new URLSearchParams(window.location.search);
+            const queryUrl = urlParams.get('url');
+            if (queryUrl) {
+                document.getElementById('yt-url').value = queryUrl;
+                analyzeYoutube();
+            }
+        });
+
+        function toggleTheme() {
+            const body = document.body;
+            body.classList.toggle('light-theme');
+            const isLight = body.classList.contains('light-theme');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            
+            const icon = document.getElementById('theme-icon');
+            if (isLight) {
+                icon.className = 'fa-solid fa-moon';
+            } else {
+                icon.className = 'fa-solid fa-sun';
+            }
+            
+            if (currentTab === 'analytics') {
+                updateAnalyticsChart();
+            }
+        }
+        
+        function changeColorTheme(theme) {
+            const root = document.documentElement;
+            localStorage.setItem('color-theme', theme);
+            if (theme === 'cyberpunk') {
+                root.style.setProperty('--hue-1', '51');
+                root.style.setProperty('--hue-2', '195');
+                root.style.setProperty('--hue-accent', '328');
+            } else if (theme === 'emerald') {
+                root.style.setProperty('--hue-1', '142');
+                root.style.setProperty('--hue-2', '174');
+                root.style.setProperty('--hue-accent', '190');
+            } else if (theme === 'rosegold') {
+                root.style.setProperty('--hue-1', '343');
+                root.style.setProperty('--hue-2', '24');
+                root.style.setProperty('--hue-accent', '320');
+            } else {
+                // Purple (Default)
+                root.style.setProperty('--hue-1', '263');
+                root.style.setProperty('--hue-2', '217');
+                root.style.setProperty('--hue-accent', '330');
+            }
+            
+            if (currentTab === 'analytics') {
+                updateAnalyticsChart();
+            }
+        }
+
+        function playChimeSound() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const now = ctx.currentTime;
+                
+                const osc1 = ctx.createOscillator();
+                osc1.type = 'sine';
+                osc1.frequency.setValueAtTime(523.25, now); // C5
+                osc1.frequency.exponentialRampToValueAtTime(783.99, now + 0.15); // G5
+                
+                const gain = ctx.createGain();
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
+                
+                osc1.connect(gain);
+                gain.connect(ctx.destination);
+                
+                osc1.start(now);
+                osc1.stop(now + 0.6);
+            } catch (e) {
+                console.error('Web Audio fail', e);
+            }
+        }
+
+        function showNotification(title, body) {
+            if ("Notification" in window && Notification.permission === "granted") {
+                new Notification(title, { body: body });
+            }
+        }
+
+        async function updateServerStatus() {
+            try {
+                const response = await fetch('/api/server/status');
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.success) {
+                        document.getElementById('srv-disk').textContent = result.disk_free;
+                        document.getElementById('srv-files').textContent = result.file_count;
+                        document.getElementById('srv-tasks').textContent = result.active_tasks;
+                    }
+                }
+            } catch (err) {
+                console.error('Failed to update server status', err);
+            }
+        }
+
+        function switchTab(tabId) {
+            currentTab = tabId;
+            
+            // Toggle active tabs buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.setAttribute('aria-selected', 'false');
+            });
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+            document.getElementById(`tab-${tabId}`).setAttribute('aria-selected', 'true');
+
+            // Toggle tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`content-${tabId}`).classList.add('active');
+            
+            // Hide cards when switching
+            document.getElementById('yt-media-card').style.display = 'none';
+            document.getElementById('yt-playlist-card').style.display = 'none';
+            document.getElementById('yt-search-results').style.display = 'none';
+            document.getElementById('grabber-results-card').style.display = 'none';
+            hideStatus();
+            
+            if (tabId === 'analytics') {
+                updateAnalyticsChart();
+            }
+        }
+
+        function showStatus(title, desc) {
+            const statusCard = document.getElementById('status-card');
+            document.getElementById('status-title').textContent = title;
+            document.getElementById('status-desc').textContent = desc || 'Silakan tunggu sebentar...';
+            statusCard.style.display = 'flex';
+            toggleButtonsLoading(true);
+        }
+
+        function hideStatus() {
+            document.getElementById('status-card').style.display = 'none';
+            document.getElementById('progress-container').style.display = 'none';
+            document.getElementById('success-container').style.display = 'none';
+            document.getElementById('btn-play-media').style.display = 'none';
+            document.getElementById('status-spinner').style.display = 'block';
+            toggleButtonsLoading(false);
+        }
+
+        function showToast(message, type = 'success') {
+            const toastArea = document.getElementById('toast-area');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const icon = type === 'success' 
+                ? '<i class="fa-solid fa-circle-check toast-icon"></i>' 
+                : '<i class="fa-solid fa-circle-exclamation toast-icon"></i>';
+
+            toast.innerHTML = `
+                ${icon}
+                <div class="toast-message">${message}</div>
+            `;
+
+            toastArea.appendChild(toast);
+
+            // Automatically remove toast after 4 seconds
+            setTimeout(() => {
+                toast.style.transform = 'translateX(100%)';
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        function adjustQualityOptions() {
+            const format = document.getElementById('yt-format').value;
+            const qualitySelect = document.getElementById('yt-quality');
+            qualitySelect.innerHTML = '';
+            
+            if (['mp4', 'webm', 'mkv'].includes(format)) {
+                const options = [
+                    { value: '1080p', text: '1080p (Full HD)' },
+                    { value: '720p', text: '720p (HD)' },
+                    { value: '480p', text: '480p (Medium)' },
+                    { value: '360p', text: '360p (Low)' }
+                ];
+                options.forEach(opt => {
+                    const el = document.createElement('option');
+                    el.value = opt.value + '_' + format;
+                    el.textContent = opt.text;
+                    qualitySelect.appendChild(el);
+                });
+            } else if (format === 'mp3') {
+                const options = [
+                    { value: 'mp3_320k', text: '320 kbps (High)' },
+                    { value: 'mp3_192k', text: '192 kbps (Medium)' },
+                    { value: 'mp3_128k', text: '128 kbps (Low)' },
+                    { value: 'mp3_64k', text: '64 kbps (Min)' }
+                ];
+                options.forEach(opt => {
+                    const el = document.createElement('option');
+                    el.value = opt.value;
+                    el.textContent = opt.text;
+                    qualitySelect.appendChild(el);
+                });
+            } else {
+                const el = document.createElement('option');
+                el.value = format;
+                el.textContent = format === 'wav' ? 'Lossless WAV' : 'Standard M4A';
+                qualitySelect.appendChild(el);
+            }
+        }
+
+        async function searchYoutube() {
+            const queryInput = document.getElementById('yt-url');
+            const query = queryInput.value.trim();
+
+            if (!query) {
+                showToast('Masukkan kata kunci pencarian terlebih dahulu!', 'error');
+                return;
+            }
+
+            document.getElementById('yt-media-card').style.display = 'none';
+            document.getElementById('yt-playlist-card').style.display = 'none';
+            document.getElementById('yt-search-results').style.display = 'none';
+            
+            showStatus('Mencari Video...', 'Mencari video yang cocok di YouTube...');
+
+            try {
+                const response = await fetch('/api/search', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query: query })
+                });
+
+                const result = await response.json();
+                hideStatus();
+
+                if (result.success && result.results && result.results.length > 0) {
+                    const listContainer = document.getElementById('search-results-list');
+                    listContainer.innerHTML = '';
+                    
+                    result.results.forEach(video => {
+                        const row = document.createElement('div');
+                        row.style.display = 'flex';
+                        row.style.alignItems = 'center';
+                        row.style.gap = '0.75rem';
+                        row.style.padding = '0.5rem';
+                        row.style.background = 'rgba(255, 255, 255, 0.03)';
+                        row.style.border = '1px solid rgba(255, 255, 255, 0.05)';
+                        row.style.borderRadius = '10px';
+                        row.style.cursor = 'pointer';
+                        row.style.transition = 'all 0.2s';
+                        
+                        row.onclick = () => {
+                            queryInput.value = video.url;
+                            document.getElementById('yt-search-results').style.display = 'none';
+                            analyzeYoutube();
+                        };
+                        
+                        row.onmouseover = () => { row.style.background = 'rgba(255, 255, 255, 0.08)'; };
+                        row.onmouseout = () => { row.style.background = 'rgba(255, 255, 255, 0.03)'; };
+
+                        const durationStr = video.duration 
+                            ? `${Math.floor(video.duration / 60)}:${(video.duration % 60).toString().padStart(2, '0')}` 
+                            : 'N/A';
+
+                        row.innerHTML = `
+                            <img src="${escapeHtml(video.thumbnail)}" alt="thumb" style="width: 80px; height: 45px; object-fit: cover; border-radius: 6px; flex-shrink: 0;">
+                            <div style="display: flex; flex-direction: column; overflow: hidden; flex-grow: 1;">
+                                <span style="font-weight: 600; font-size: 0.85rem; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; color: var(--text-primary);">${escapeHtml(video.title)}</span>
+                                <span style="font-size: 0.72rem; color: var(--text-secondary);">${escapeHtml(video.uploader)} • Durasi: ${durationStr}</span>
+                            </div>
+                            <i class="fa-solid fa-circle-play" style="color: hsl(var(--hue-1), 85%, 65%); font-size: 1.1rem; margin-right: 0.5rem; flex-shrink: 0;"></i>
+                        `;
+                        listContainer.appendChild(row);
+                    });
+                    
+                    document.getElementById('yt-search-results').style.display = 'flex';
+                    showToast('Pencarian selesai!');
+                } else {
+                    showToast('Video tidak ditemukan.', 'error');
+                }
+            } catch (err) {
+                hideStatus();
+                showToast('Koneksi pencarian ke server gagal.', 'error');
+                console.error(err);
+            }
+        }
+
+        async function analyzeYoutube() {
+            const urlInput = document.getElementById('yt-url');
+            const url = urlInput.value.trim();
+
+            if (!url) {
+                showToast('Masukkan link video terlebih dahulu!', 'error');
+                return;
+            }
+
+            document.getElementById('yt-media-card').style.display = 'none';
+            document.getElementById('yt-playlist-card').style.display = 'none';
+            document.getElementById('yt-search-results').style.display = 'none';
+            
+            showStatus('Menganalisis Tautan...', 'Menghubungi server untuk memuat detail media...');
+
+            try {
+                const response = await fetch('/api/info', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: url })
+                });
+
+                const result = await response.json();
+                hideStatus();
+
+                if (result.success) {
+                    if (result.is_playlist) {
+                        // Render playlist
+                        document.getElementById('playlist-title').textContent = result.title;
+                        const listContainer = document.getElementById('playlist-videos-list');
+                        listContainer.innerHTML = '';
+                        
+                        result.videos.forEach((video, index) => {
+                            const row = document.createElement('div');
+                            row.style.display = 'flex';
+                            row.style.alignItems = 'center';
+                            row.style.justifyContent = 'space-between';
+                            row.style.padding = '0.5rem 0.75rem';
+                            row.style.background = 'rgba(255, 255, 255, 0.02)';
+                            row.style.border = '1px solid rgba(255, 255, 255, 0.04)';
+                            row.style.borderRadius = '8px';
+                            row.style.gap = '0.75rem';
+                            
+                            row.innerHTML = `
+                                <div style="display: flex; align-items: center; gap: 0.5rem; overflow: hidden; flex-grow: 1;">
+                                    <input type="checkbox" class="playlist-checkbox" value="${escapeHtml(video.url)}" checked style="width: 16px; height: 16px; accent-color: hsl(var(--hue-1), 85%, 65%); flex-shrink: 0; cursor: pointer;">
+                                    <span style="font-size: 0.75rem; color: var(--text-secondary); width: 16px; text-align: right; flex-shrink: 0;">${index+1}</span>
+                                    <img src="${escapeHtml(video.thumbnail)}" alt="thumb" style="width: 50px; height: 28px; object-fit: cover; border-radius: 4px; flex-shrink: 0;">
+                                    <span style="font-size: 0.82rem; font-weight: 500; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; color: var(--text-primary);">${escapeHtml(video.title)}</span>
+                                </div>
+                                <span style="font-size: 0.72rem; color: var(--text-secondary); flex-shrink: 0;">${video.duration}</span>
+                            `;
+                            listContainer.appendChild(row);
+                        });
+                        
+                        document.getElementById('playlist-select-all').checked = true;
+                        document.getElementById('yt-playlist-card').style.display = 'flex';
+                        showToast('Playlist berhasil dimuat!');
+                    } else {
+                        // Render single video
+                        currentMediaInfo = {
+                            title: result.title,
+                            url: result.url,
+                            thumbnail: result.thumbnail,
+                            subtitles: result.subtitles
+                        };
+
+                        document.getElementById('yt-title').textContent = result.title;
+                        document.getElementById('yt-uploader').textContent = result.uploader;
+                        document.getElementById('yt-views').textContent = result.views;
+                        document.getElementById('yt-duration').textContent = result.duration;
+                        document.getElementById('yt-thumb').src = result.thumbnail;
+                        
+                        // Render subtitles list
+                        const subSection = document.getElementById('subtitles-section');
+                        const subLangSelect = document.getElementById('yt-subtitle-lang');
+                        
+                        if (result.subtitles && result.subtitles.length > 0) {
+                            subLangSelect.innerHTML = '';
+                            result.subtitles.forEach(sub => {
+                                const opt = document.createElement('option');
+                                opt.value = sub.code;
+                                opt.textContent = sub.name;
+                                subLangSelect.appendChild(opt);
+                            });
+                            subSection.style.display = 'flex';
+                        } else {
+                            subSection.style.display = 'none';
+                        }
+
+                        document.getElementById('yt-media-card').style.display = 'flex';
+                        showToast('Tautan berhasil dianalisis!');
+                    }
+                } else {
+                    showToast(result.error || 'Gagal menganalisis tautan.', 'error');
+                }
+            } catch (err) {
+                hideStatus();
+                showToast('Terjadi kesalahan koneksi ke server.', 'error');
+                console.error(err);
+            }
+        }
+
+        function toggleSelectAllPlaylist(checked) {
+            document.querySelectorAll('.playlist-checkbox').forEach(cb => {
+                cb.checked = checked;
+            });
+        }
+
+        async function downloadSelectedPlaylist() {
+            const checkedBoxes = document.querySelectorAll('.playlist-checkbox:checked');
+            if (checkedBoxes.length === 0) {
+                showToast('Pilih minimal satu video untuk diunduh!', 'error');
+                return;
+            }
+            
+            const formatType = document.getElementById('playlist-format').value;
+            const urls = Array.from(checkedBoxes).map(cb => cb.value);
+            
+            showToast(`Memulai unduhan massal (${urls.length} berkas)...`);
+            
+            for (let i = 0; i < urls.length; i++) {
+                const url = urls[i];
+                showStatus(`Unduhan Massal [${i+1}/${urls.length}]`, `Memproses berkas ke-${i+1} dari ${urls.length}...`);
+                
+                try {
+                    const response = await fetch('/api/download/start', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ url: url, format_type: formatType })
+                    });
+                    
+                    if (response.ok) {
+                        const result = await response.json();
+                        if (result.success && result.task_id) {
+                            await pollPlaylistTask(result.task_id, formatType);
+                        }
+                    }
+                } catch (e) {
+                    console.error('Playlist download error', e);
+                }
+            }
+            
+            hideStatus();
+            showToast('Seluruh unduhan terpilih selesai diproses!');
+        }
+
+        function pollPlaylistTask(taskId, formatType) {
+            return new Promise((resolve) => {
+                const progressBar = document.getElementById('progress-bar');
+                const progressPercent = document.getElementById('progress-percent');
+                const progressSpeed = document.getElementById('progress-speed');
+                const progressEta = document.getElementById('progress-eta');
+                
+                document.getElementById('progress-container').style.display = 'block';
+                
+                const interval = setInterval(async () => {
+                    try {
+                        const response = await fetch(`/api/download/status/${taskId}`);
+                        if (!response.ok) {
+                            clearInterval(interval);
+                            resolve();
+                            return;
+                        }
+                        
+                        const result = await response.json();
+                        if (!result.success || result.status === 'failed') {
+                            clearInterval(interval);
+                            resolve();
+                            return;
+                        }
+                        
+                        if (result.status === 'downloading') {
+                            progressBar.style.width = `${result.progress}%`;
+                            progressPercent.textContent = `${result.progress}%`;
+                            progressSpeed.textContent = `Kecepatan: ${result.speed}`;
+                            progressEta.textContent = `ETA: ${result.eta}`;
+                        } else if (result.status === 'processing') {
+                            progressBar.style.width = '100%';
+                            progressPercent.textContent = '100%';
+                            progressSpeed.textContent = 'Menyelesaikan...';
+                        } else if (result.status === 'completed') {
+                            clearInterval(interval);
+                            
+                            playChimeSound();
+                            showNotification('Unduhan Playlist Selesai!', 'Berkas video telah berhasil diproses.');
+                            
+                            // Log history
+                            const rawTitle = result.filename || 'media_download';
+                            const displayTitle = rawTitle.replace(/^[a-f0-9]{32}_/, '');
+                            const type = formatType.includes('mp3') ? 'audio' : 'video';
+                            addDownloadToHistory(displayTitle, 'Playlist Downloader', type, formatType.split('_')[0]);
+                            
+                            // Trigger file download
+                            await triggerFileDownload(`/api/download/file/${taskId}`, formatType.split('_')[0]);
+                            resolve();
+                        }
+                    } catch (e) {
+                        clearInterval(interval);
+                        resolve();
+                    }
+                }, 1000);
+            });
+        }
+
+        async function downloadYoutubeStart() {
+            const urlInput = document.getElementById('yt-url');
+            const url = urlInput.value.trim();
+            const formatType = document.getElementById('yt-quality').value;
+            
+            // Trimmer values
+            const trimStart = document.getElementById('yt-trim-start').value.trim();
+            const trimEnd = document.getElementById('yt-trim-end').value.trim();
+            
+            // Scheduler values
+            const scheduleVal = document.getElementById('yt-schedule').value;
+            let scheduledTime = null;
+            if (scheduleVal) {
+                scheduledTime = Math.floor(new Date(scheduleVal).getTime() / 1000);
+                if (scheduledTime <= Math.floor(Date.now() / 1000)) {
+                    showToast('Waktu penjadwalan harus di masa depan!', 'error');
+                    return;
+                }
+            }
+            
+            // Speed limit values
+            const speedLimit = document.getElementById('yt-speed-limit').value;
+
+            if (!url) {
+                showToast('Masukkan link video terlebih dahulu!', 'error');
+                return;
+            }
+
+            document.getElementById('yt-media-card').style.display = 'none';
+
+            // Reset and show progress bar
+            const progressContainer = document.getElementById('progress-container');
+            const progressBar = document.getElementById('progress-bar');
+            const progressPercent = document.getElementById('progress-percent');
+            const progressSpeed = document.getElementById('progress-speed');
+            const progressEta = document.getElementById('progress-eta');
+
+            progressBar.style.width = '0%';
+            progressPercent.textContent = '0%';
+            progressSpeed.textContent = 'Kecepatan: N/A';
+            progressEta.textContent = 'ETA: N/A';
+            progressContainer.style.display = 'block';
+
+            if (scheduledTime) {
+                showStatus('Menjadwalkan Unduhan...', `Tugas akan dimulai otomatis pada ${new Date(scheduleVal).toLocaleString('id-ID')}`);
+            } else {
+                showStatus('Mengunduh & Memproses...', 'Mengirim permintaan tugas unduhan ke server...');
+            }
+
+            try {
+                const response = await fetch('/api/download/start', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        url: url, 
+                        format_type: formatType,
+                        start_time: trimStart || null,
+                        end_time: trimEnd || null,
+                        scheduled_time: scheduledTime,
+                        speed_limit: speedLimit || null
+                    })
+                });
+
+                if (!response.ok) {
+                    const result = await response.json().catch(() => ({}));
+                    hideStatus();
+                    showToast(result.error || 'Gagal memulai proses unduhan.', 'error');
+                    return;
+                }
+
+                const result = await response.json();
+                if (result.success && result.task_id) {
+                    if (result.scheduled) {
+                        // For scheduled task, show scheduled UI
+                        document.getElementById('status-spinner').style.display = 'none';
+                        progressBar.style.width = '100%';
+                        progressPercent.textContent = 'Scheduled';
+                        progressSpeed.textContent = 'Menunggu waktu...';
+                        progressEta.textContent = `Mulai: ${new Date(scheduleVal).toLocaleTimeString('id-ID')}`;
+                        showToast('Unduhan berhasil dijadwalkan!');
+                        updateServerStatus();
+                    } else {
+                        pollDownloadProgress(result.task_id, formatType);
+                    }
+                } else {
+                    hideStatus();
+                    showToast('Gagal mendaftarkan tugas unduhan di server.', 'error');
+                }
+            } catch (err) {
+                hideStatus();
+                showToast('Terjadi kesalahan koneksi ke server.', 'error');
+                console.error(err);
+            }
+        }
+
+        function pollDownloadProgress(taskId, formatType) {
+            const progressBar = document.getElementById('progress-bar');
+            const progressPercent = document.getElementById('progress-percent');
+            const progressSpeed = document.getElementById('progress-speed');
+            const progressEta = document.getElementById('progress-eta');
+            
+            const interval = setInterval(async () => {
+                try {
+                    const response = await fetch(`/api/download/status/${taskId}`);
+                    if (!response.ok) {
+                        clearInterval(interval);
+                        hideStatus();
+                        showToast('Gagal memantau status unduhan.', 'error');
+                        return;
+                    }
+
+                    const result = await response.json();
+                    if (!result.success) {
+                        clearInterval(interval);
+                        hideStatus();
+                        showToast(result.error || 'Terjadi kesalahan pemantauan.', 'error');
+                        return;
+                    }
+
+                    if (result.status === 'downloading') {
+                        showStatus('Sedang Mengunduh...', 'Mengambil data berkas media dari penyedia...');
+                        progressBar.style.width = `${result.progress}%`;
+                        progressPercent.textContent = `${result.progress}%`;
+                        progressSpeed.textContent = `Kecepatan: ${result.speed}`;
+                        progressEta.textContent = `ETA: ${result.eta}`;
+                    } else if (result.status === 'processing') {
+                        showStatus('Memproses Media...', 'Sedang mengonversi format atau menggabungkan audio/video...');
+                        progressBar.style.width = '100%';
+                        progressPercent.textContent = '100%';
+                        progressSpeed.textContent = 'Menyelesaikan...';
+                        progressEta.textContent = 'Sesaat lagi...';
+                    } else if (result.status === 'completed') {
+                        clearInterval(interval);
+                        
+                        showStatus('Unduhan Selesai!', 'Media Anda siap diunduh.');
+                        document.getElementById('status-spinner').style.display = 'none';
+                        progressBar.style.width = '100%';
+                        progressPercent.textContent = '100%';
+                        
+                        // Play Web Audio Chime and notify
+                        playChimeSound();
+                        showNotification('Unduhan Selesai!', 'Berkas media Anda telah siap diunduh.');
+                        
+                        // Add item to history
+                        const rawTitle = result.filename || 'media_download';
+                        const displayTitle = rawTitle.replace(/^[a-f0-9]{32}_/, '');
+                        const type = formatType.includes('mp3') || formatType.includes('m4a') || formatType.includes('wav') ? 'audio' : 'video';
+                        addDownloadToHistory(displayTitle, 'Video / Audio Downloader', type, formatType.split('_')[0]);
+                        
+                        // Show QR Code and Final Download Button
+                        const downloadUrl = `/api/download/file/${taskId}`;
+                        const qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + encodeURIComponent(window.location.origin + downloadUrl);
+                        
+                        document.getElementById('qr-code-img').src = qrUrl;
+                        document.getElementById('btn-final-download').href = downloadUrl;
+                        document.getElementById('btn-final-download').download = rawTitle;
+                        
+                        // Show lyrics options if available
+                        const successLyrics = document.getElementById('success-lyrics');
+                        if (result.lyrics_available) {
+                            document.getElementById('btn-lyrics-txt').href = `/api/download/lyrics/${taskId}?format=txt`;
+                            document.getElementById('btn-lyrics-lrc').href = `/api/download/lyrics/${taskId}?format=lrc`;
+                            successLyrics.style.display = 'flex';
+                        } else {
+                            successLyrics.style.display = 'none';
+                        }
+                        
+                        // Show play button if file is video/audio
+                        const isPlayable = formatType.includes('mp3') || formatType.includes('m4a') || formatType.includes('wav') || formatType.includes('mp4') || formatType.includes('webm') || formatType.includes('mkv');
+                        const playBtn = document.getElementById('btn-play-media');
+                        if (isPlayable) {
+                            playBtn.style.display = 'inline-block';
+                            activePlayerTaskId = taskId;
+                            activePlayerFilename = rawTitle;
+                        } else {
+                            playBtn.style.display = 'none';
+                        }
+                        
+                        document.getElementById('success-container').style.display = 'block';
+                        updateServerStatus();
+                        
+                        // Also trigger auto download to PC for best UX
+                        triggerFileDownload(downloadUrl, formatType.split('_')[0]);
+                    } else if (result.status === 'failed') {
+                        clearInterval(interval);
+                        hideStatus();
+                        showToast(result.error || 'Pengunduhan gagal di server.', 'error');
+                    }
+                } catch (err) {
+                    clearInterval(interval);
+                    hideStatus();
+                    showToast('Koneksi terputus saat memantau status unduhan.', 'error');
+                    console.error(err);
+                }
+            }, 1000);
+        }
+
+        async function triggerFileDownload(downloadUrl, formatType) {
+            try {
+                const response = await fetch(downloadUrl);
+                if (!response.ok) {
+                    return; // Fail silently, user can still use the manual download button
+                }
+
+                const disposition = response.headers.get('Content-Disposition');
+                let filename = `download.${formatType}`;
+                if (disposition) {
+                    const filenameStarRegex = /filename\*=UTF-8''([^;\n]+)/i;
+                    const starMatches = filenameStarRegex.exec(disposition);
+                    if (starMatches && starMatches[1]) {
+                        filename = decodeURIComponent(starMatches[1]);
+                    } else {
+                        const filenameRegex = /filename=((['"]).*?\2|[^;\n]*)/;
+                        const matches = filenameRegex.exec(disposition);
+                        if (matches && matches[1]) {
+                            filename = decodeURIComponent(matches[1].replace(/['"]/g, ''));
+                        }
+                    }
+                }
+
+                const blob = await response.blob();
+                const blobUrl = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = blobUrl;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(blobUrl);
+                updateServerStatus();
+            } catch (err) {
+                console.error('Trigger download failed', err);
+            }
+        }
+
+        async function downloadGeneric(type, customUrl = null, speedLimit = null) {
+            const url = customUrl || (type === 'image' ? document.getElementById('img-url').value.trim() : document.getElementById('anim-url').value.trim());
+
+            if (!url) {
+                showToast(`Masukkan URL terlebih dahulu!`, 'error');
+                return;
+            }
+
+            showStatus(`Mengunduh Berkas...`, 'Menyiapkan segmentasi multi-thread...');
+
+            try {
+                const response = await fetch('/api/download/generic', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: url, type: type, speed_limit: speedLimit })
+                });
+
+                if (!response.ok) {
+                    const result = await response.json().catch(() => ({}));
+                    hideStatus();
+                    showToast(result.error || `Gagal memulai unduhan.`, 'error');
+                    return;
+                }
+
+                const result = await response.json();
+                if (result.success && result.task_id) {
+                    const taskId = result.task_id;
+                    
+                    const progressContainer = document.getElementById('progress-container');
+                    const progressBar = document.getElementById('progress-bar');
+                    const progressPercent = document.getElementById('progress-percent');
+                    const progressSpeed = document.getElementById('progress-speed');
+                    const progressEta = document.getElementById('progress-eta');
+                    
+                    progressBar.style.width = '0%';
+                    progressPercent.textContent = '0%';
+                    progressSpeed.textContent = 'Menghubungkan server...';
+                    progressEta.textContent = 'ETA: N/A';
+                    progressContainer.style.display = 'block';
+                    
+                    pollGenericProgress(taskId, type);
+                }
+
+            } catch (err) {
+                hideStatus();
+                showToast('Gagal memproses tautan unduhan.', 'error');
+                console.error(err);
+            }
+        }
+
+        function pollGenericProgress(taskId, type) {
+            const progressBar = document.getElementById('progress-bar');
+            const progressPercent = document.getElementById('progress-percent');
+            const progressSpeed = document.getElementById('progress-speed');
+            const progressEta = document.getElementById('progress-eta');
+            
+            const interval = setInterval(async () => {
+                try {
+                    const response = await fetch(`/api/download/status/${taskId}`);
+                    if (!response.ok) {
+                        clearInterval(interval);
+                        hideStatus();
+                        return;
+                    }
+                    
+                    const result = await response.json();
+                    if (!result.success || result.status === 'failed') {
+                        clearInterval(interval);
+                        hideStatus();
+                        showToast(result.error || 'Unduhan berkas gagal.', 'error');
+                        return;
+                    }
+                    
+                    if (result.status === 'downloading') {
+                        showStatus('Mengunduh Berkas...', 'Mengunduh secara paralel (Dynamic Segmentation)...');
+                        progressBar.style.width = `${result.progress}%`;
+                        progressPercent.textContent = `${result.progress}%`;
+                        progressSpeed.textContent = `Kecepatan: ${result.speed}`;
+                        progressEta.textContent = `ETA: ${result.eta}`;
+                    } else if (result.status === 'completed') {
+                        clearInterval(interval);
+                        
+                        showStatus('Unduhan Selesai!', 'Berkas Anda siap diunduh.');
+                        document.getElementById('status-spinner').style.display = 'none';
+                        progressBar.style.width = '100%';
+                        progressPercent.textContent = '100%';
+                        
+                        playChimeSound();
+                        showNotification('Unduhan Selesai!', 'Berkas Anda telah siap.');
+                        
+                        const rawTitle = result.filename || 'downloaded_file';
+                        const fileExt = rawTitle.includes('.') ? rawTitle.split('.').pop().toUpperCase() : type.toUpperCase();
+                        addDownloadToHistory(rawTitle, 'Generic Downloader', type, fileExt);
+                        
+                        const downloadUrl = `/api/download/file/${taskId}`;
+                        const qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + encodeURIComponent(window.location.origin + downloadUrl);
+                        
+                        document.getElementById('qr-code-img').src = qrUrl;
+                        document.getElementById('btn-final-download').href = downloadUrl;
+                        document.getElementById('btn-final-download').download = rawTitle;
+                        
+                        const isPlayable = rawTitle.endsWith('.mp3') || rawTitle.endsWith('.wav') || rawTitle.endsWith('.m4a') || rawTitle.endsWith('.mp4') || rawTitle.endsWith('.webm') || rawTitle.endsWith('.mkv');
+                        const playBtn = document.getElementById('btn-play-media');
+                        if (isPlayable) {
+                            playBtn.style.display = 'inline-block';
+                            activePlayerTaskId = taskId;
+                            activePlayerFilename = rawTitle;
+                        } else {
+                            playBtn.style.display = 'none';
+                        }
+                        
+                        document.getElementById('success-container').style.display = 'block';
+                        updateServerStatus();
+                        
+                        triggerFileDownload(downloadUrl, type);
+                    }
+                } catch (e) {
+                    clearInterval(interval);
+                    hideStatus();
+                }
+            }, 1000);
+        }
+
+        async function downloadSubtitle() {
+            if (!currentMediaInfo) return;
+            const lang = document.getElementById('yt-subtitle-lang').value;
+            const format = document.getElementById('yt-subtitle-format').value;
+            
+            showStatus('Mengunduh Subtitel...', 'Mengambil data subtitel dari video...');
+            
+            try {
+                const response = await fetch('/api/download/subtitle', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        url: currentMediaInfo.url,
+                        lang: lang,
+                        format: format
+                    })
+                });
+                
+                if (!response.ok) {
+                    const result = await response.json().catch(() => ({}));
+                    hideStatus();
+                    showToast(result.error || 'Gagal mengunduh subtitel.', 'error');
+                    return;
+                }
+                
+                const disposition = response.headers.get('Content-Disposition');
+                let filename = `subtitle.${format}`;
+                if (disposition) {
+                    const filenameStarRegex = /filename\*=UTF-8''([^;\n]+)/i;
+                    const starMatches = filenameStarRegex.exec(disposition);
+                    if (starMatches && starMatches[1]) {
+                        filename = decodeURIComponent(starMatches[1]);
+                    } else {
+                        const filenameRegex = /filename=((['"]).*?\2|[^;\n]*)/;
+                        const matches = filenameRegex.exec(disposition);
+                        if (matches && matches[1]) {
+                            filename = decodeURIComponent(matches[1].replace(/['"]/g, ''));
+                        }
+                    }
+                }
+                
+                const blob = await response.blob();
+                const blobUrl = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = blobUrl;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(blobUrl);
+                
+                // Add to history
+                addDownloadToHistory(filename, 'Subtitle Downloader', 'text', format);
+                
+                playChimeSound();
+                showNotification('Unduhan Subtitel Selesai!', 'Subtitel berkas video berhasil disimpan.');
+
+                hideStatus();
+                showToast('Subtitel berhasil diunduh!');
+                updateServerStatus();
+            } catch (err) {
+                hideStatus();
+                showToast('Gagal memproses unduhan subtitel.', 'error');
+                console.error(err);
+            }
+        }
+
+        async function downloadThumbnail() {
+            if (!currentMediaInfo) return;
+            
+            showStatus('Mengunduh Cover HD...', 'Mengambil gambar thumbnail resolusi tinggi...');
+            
+            try {
+                const response = await fetch('/api/download/thumbnail', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        thumbnail_url: currentMediaInfo.thumbnail,
+                        title: currentMediaInfo.title
+                    })
+                });
+                
+                if (!response.ok) {
+                    const result = await response.json().catch(() => ({}));
+                    hideStatus();
+                    showToast(result.error || 'Gagal mengunduh cover.', 'error');
+                    return;
+                }
+                
+                const disposition = response.headers.get('Content-Disposition');
+                let filename = `cover.jpg`;
+                if (disposition) {
+                    const filenameStarRegex = /filename\*=UTF-8''([^;\n]+)/i;
+                    const starMatches = filenameStarRegex.exec(disposition);
+                    if (starMatches && starMatches[1]) {
+                        filename = decodeURIComponent(starMatches[1]);
+                    } else {
+                        const filenameRegex = /filename=((['"]).*?\2|[^;\n]*)/;
+                        const matches = filenameRegex.exec(disposition);
+                        if (matches && matches[1]) {
+                            filename = decodeURIComponent(matches[1].replace(/['"]/g, ''));
+                        }
+                    }
+                }
+                
+                const blob = await response.blob();
+                const blobUrl = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = blobUrl;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(blobUrl);
+                
+                // Add to history
+                addDownloadToHistory(filename, 'Cover Downloader', 'image', 'jpg');
+                
+                playChimeSound();
+                showNotification('Unduhan Cover Selesai!', 'Cover HD video berhasil diunduh.');
+
+                hideStatus();
+                showToast('Cover HD berhasil diunduh!');
+                updateServerStatus();
+            } catch (err) {
+                hideStatus();
+                showToast('Gagal memproses unduhan cover.', 'error');
+                console.error(err);
+            }
+        }
+
+        // History Management
+        function addDownloadToHistory(title, source, type, format) {
+            let history = JSON.parse(localStorage.getItem('download_history') || '[]');
+            history = history.filter(item => item.title !== title);
+            
+            history.unshift({
+                title: title,
+                source: source,
+                type: type,
+                format: format,
+                timestamp: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
+            });
+            
+            if (history.length > 30) {
+                history.pop();
+            }
+            
+            localStorage.setItem('download_history', JSON.stringify(history));
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const historyList = document.getElementById('history-list');
+            const historyCard = document.getElementById('history-card');
+            const history = JSON.parse(localStorage.getItem('download_history') || '[]');
+            
+            if (history.length === 0) {
+                historyCard.style.display = 'none';
+                return;
+            }
+            
+            historyCard.style.display = 'block';
+            historyList.innerHTML = '';
+            
+            // Render top 5 in layout
+            history.slice(0, 5).forEach(item => {
+                let iconClass = 'fa-solid fa-file';
+                let badgeColor = '#8b5cf6';
+                if (item.type === 'video') { iconClass = 'fa-solid fa-video'; badgeColor = '#3b82f6'; }
+                else if (item.type === 'audio') { iconClass = 'fa-solid fa-music'; badgeColor = '#ec4899'; }
+                else if (item.type === 'image') { iconClass = 'fa-regular fa-image'; badgeColor = '#10b981'; }
+                else if (item.type === 'animation') { iconClass = 'fa-solid fa-wand-magic-sparkles'; badgeColor = '#f59e0b'; }
+                else if (item.type === 'text') { iconClass = 'fa-regular fa-closed-captioning'; badgeColor = '#10b981'; }
+                
+                const itemEl = document.createElement('div');
+                itemEl.style.display = 'flex';
+                itemEl.style.alignItems = 'center';
+                itemEl.style.justifyContent = 'space-between';
+                itemEl.style.padding = '0.75rem 1rem';
+                itemEl.style.background = 'rgba(255, 255, 255, 0.03)';
+                itemEl.style.border = '1px solid rgba(255, 255, 255, 0.05)';
+                itemEl.style.borderRadius = '12px';
+                itemEl.style.gap = '1rem';
+                
+                itemEl.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 0.75rem; overflow: hidden; flex-grow: 1;">
+                        <div style="width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <i class="${iconClass}" style="color: ${badgeColor}; font-size: 1.1rem;"></i>
+                        </div>
+                        <div style="display: flex; flex-direction: column; overflow: hidden;">
+                            <span style="font-weight: 600; font-size: 0.9rem; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; color: var(--text-primary);">${escapeHtml(item.title)}</span>
+                            <span style="font-size: 0.75rem; color: var(--text-secondary); display: flex; gap: 0.5rem; align-items: center;">
+                                <span>${escapeHtml(item.source)}</span> • <span>${escapeHtml(item.timestamp)}</span>
+                            </span>
+                        </div>
+                    </div>
+                    <span style="font-size: 0.75rem; font-weight: 700; background: ${badgeColor}20; color: ${badgeColor}; padding: 0.25rem 0.5rem; border-radius: 6px; text-transform: uppercase; flex-shrink: 0;">
+                        ${item.format}
+                    </span>
+                `;
+                historyList.appendChild(itemEl);
+            });
+        }
+
+        function updateAnalyticsChart() {
+            const history = JSON.parse(localStorage.getItem('download_history') || '[]');
+            const totalCount = history.length;
+            document.getElementById('stat-total').textContent = totalCount;
+            
+            const savedMb = totalCount * 8.5;
+            document.getElementById('stat-saved').textContent = savedMb.toFixed(1) + ' MB';
+            
+            const types = { video: 0, audio: 0, image: 0, animation: 0, text: 0 };
+            history.forEach(item => {
+                if (item.type in types) {
+                    types[item.type]++;
+                }
+            });
+            
+            const ctx = document.getElementById('analytics-chart').getContext('2d');
+            
+            if (analyticsChartInstance) {
+                analyticsChartInstance.destroy();
+            }
+            
+            const isLight = document.body.classList.contains('light-theme');
+            const textSecondary = isLight ? '#4b5563' : '#9ca3af';
+            
+            analyticsChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Video', 'Audio', 'Gambar', 'Animasi', 'Sub/Cover'],
+                    datasets: [{
+                        label: 'Jumlah Unduhan',
+                        data: [types.video, types.audio, types.image, types.animation, types.text],
+                        backgroundColor: [
+                            'rgba(59, 130, 246, 0.6)',
+                            'rgba(236, 72, 153, 0.6)',
+                            'rgba(16, 185, 129, 0.6)',
+                            'rgba(245, 158, 11, 0.6)',
+                            'rgba(139, 92, 246, 0.6)'
+                        ],
+                        borderColor: [
+                            '#3b82f6',
+                            '#ec4899',
+                            '#10b981',
+                            '#f59e0b',
+                            '#8b5cf6'
+                        ],
+                        borderWidth: 1.5,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: isLight ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.05)'
+                            },
+                            ticks: {
+                                stepSize: 1,
+                                color: textSecondary
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: textSecondary
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function clearHistory() {
+            localStorage.removeItem('download_history');
+            renderHistory();
+            showToast('Riwayat unduhan berhasil dibersihkan!');
+            if (currentTab === 'analytics') {
+                updateAnalyticsChart();
+            }
+        }
+
+        let grabbedItems = [];
+        let activeGrabFilter = 'all';
+
+        async function grabSiteMedia() {
+            const url = document.getElementById('grab-url').value.trim();
+            if (!url) {
+                showToast('Masukkan URL website terlebih dahulu!', 'error');
+                return;
+            }
+            
+            document.getElementById('grabber-results-card').style.display = 'none';
+            showStatus('Meng-grab Situs...', 'Menganalisis konten halaman web untuk mengekstrak media...');
+            
+            try {
+                const response = await fetch('/api/grab', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: url })
+                });
+                
+                hideStatus();
+                if (!response.ok) {
+                    showToast('Gagal memproses URL situs.', 'error');
+                    return;
+                }
+                
+                const result = await response.json();
+                if (result.success && result.results) {
+                    grabbedItems = result.results;
+                    document.getElementById('grab-results-count').textContent = `${grabbedItems.length} Berkas`;
+                    filterGrabbed('all');
+                    document.getElementById('grabber-results-card').style.display = 'flex';
+                    showToast(`Selesai! Ditemukan ${grabbedItems.length} media.`);
+                } else {
+                    showToast('Tidak ada media yang terdeteksi di situs tersebut.', 'error');
+                }
+            } catch (e) {
+                hideStatus();
+                showToast('Terjadi kesalahan koneksi ke server.', 'error');
+                console.error(e);
+            }
+        }
+
+        function filterGrabbed(category) {
+            activeGrabFilter = category;
+            
+            // Toggle active classes on filter buttons
+            const filterContainer = document.querySelector('#content-grabber div[style*="flex-wrap: wrap"]');
+            if (filterContainer) {
+                const buttons = filterContainer.querySelectorAll('button');
+                buttons.forEach(btn => {
+                    if (btn.textContent.toLowerCase() === (category === 'all' ? 'semua' : category)) {
+                        btn.style.background = 'var(--accent-gradient)';
+                        btn.style.color = 'white';
+                        btn.style.border = 'none';
+                    } else {
+                        btn.style.background = 'rgba(255,255,255,0.05)';
+                        btn.style.color = 'var(--text-secondary)';
+                        btn.style.border = '1px solid rgba(255,255,255,0.1)';
+                    }
+                });
+            }
+            
+            renderGrabbedList();
+        }
+
+        function renderGrabbedList() {
+            const listContainer = document.getElementById('grab-list');
+            listContainer.innerHTML = '';
+            
+            const filtered = grabbedItems.filter(item => activeGrabFilter === 'all' || item.category === activeGrabFilter);
+            
+            if (filtered.length === 0) {
+                listContainer.innerHTML = '<div style="text-align: center; color: var(--text-secondary); font-size: 0.85rem; padding: 1rem;">Tidak ada media dalam kategori ini</div>';
+                return;
+            }
+            
+            const maxRender = 150;
+            const itemsToRender = filtered.slice(0, maxRender);
+            
+            const fragment = document.createDocumentFragment();
+            
+            itemsToRender.forEach((item, index) => {
+                const row = document.createElement('div');
+                row.style.display = 'flex';
+                row.style.alignItems = 'center';
+                row.style.justifyContent = 'space-between';
+                row.style.padding = '0.5rem';
+                row.style.background = 'rgba(255, 255, 255, 0.02)';
+                row.style.border = '1px solid rgba(255, 255, 255, 0.04)';
+                row.style.borderRadius = '8px';
+                row.style.gap = '0.5rem';
+                
+                let icon = 'fa-solid fa-file';
+                let iconColor = '#8b5cf6';
+                if (item.category === 'video') { icon = 'fa-solid fa-video'; iconColor = '#3b82f6'; }
+                else if (item.category === 'audio') { icon = 'fa-solid fa-music'; iconColor = '#ec4899'; }
+                else if (item.category === 'image') { icon = 'fa-regular fa-image'; iconColor = '#10b981'; }
+                else if (item.category === 'document') { icon = 'fa-regular fa-file-pdf'; iconColor = '#f59e0b'; }
+                
+                row.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 0.5rem; overflow: hidden; flex-grow: 1;">
+                        <input type="checkbox" class="grab-checkbox" value="${escapeHtml(item.url)}" data-category="${escapeHtml(item.category)}" checked style="width: 15px; height: 15px; accent-color: hsl(var(--hue-1), 85%, 65%); cursor: pointer;">
+                        <i class="${icon}" style="color: ${iconColor}; font-size: 0.95rem; flex-shrink: 0; width: 16px;"></i>
+                        <span style="font-size: 0.8rem; font-weight: 500; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; color: var(--text-primary);" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</span>
+                    </div>
+                    <span style="font-size: 0.68rem; color: var(--text-secondary); text-transform: uppercase; background: rgba(255,255,255,0.05); padding: 0.15rem 0.4rem; border-radius: 4px; flex-shrink: 0;">${escapeHtml(item.ext)}</span>
+                `;
+                fragment.appendChild(row);
+            });
+            
+            listContainer.appendChild(fragment);
+            
+            if (filtered.length > maxRender) {
+                const limitNote = document.createElement('div');
+                limitNote.style.textAlign = 'center';
+                limitNote.style.fontSize = '0.75rem';
+                limitNote.style.color = 'var(--text-secondary)';
+                limitNote.style.padding = '0.5rem 0';
+                limitNote.textContent = `Menampilkan ${maxRender} berkas teratas dari total ${filtered.length}.`;
+                listContainer.appendChild(limitNote);
+            }
+        }
+
+        function toggleSelectAllGrab(checked) {
+            document.querySelectorAll('.grab-checkbox').forEach(cb => {
+                cb.checked = checked;
+            });
+        }
+
+        async function downloadSelectedGrab() {
+            const checkedBoxes = document.querySelectorAll('.grab-checkbox:checked');
+            if (checkedBoxes.length === 0) {
+                showToast('Pilih minimal satu media untuk diunduh!', 'error');
+                return;
+            }
+            
+            const speedLimit = document.getElementById('grab-speed-limit').value;
+            const urls = Array.from(checkedBoxes).map(cb => ({
+                url: cb.value,
+                category: cb.getAttribute('data-category')
+            }));
+            
+            showToast(`Memulai batch download (${urls.length} berkas)...`);
+            
+            for (let i = 0; i < urls.length; i++) {
+                const item = urls[i];
+                showStatus(`Batch Grabber [${i+1}/${urls.length}]`, `Mengunduh berkas ke-${i+1} dari ${urls.length} secara paralel...`);
+                await downloadGeneric(item.category, item.url, speedLimit || null);
+            }
+            
+            hideStatus();
+            showToast('Batch download grabber selesai!');
+        }
+
+        async function startTorrentDownload() {
+            const magnetUrl = document.getElementById('torrent-url').value.trim();
+            const fileInput = document.getElementById('torrent-file');
+            const speedLimit = document.getElementById('torrent-speed-limit').value;
+            
+            let taskId = null;
+            
+            if (magnetUrl) {
+                showStatus('Memulai Torrent...', 'Menghubungkan ke swarm peer BitTorrent...');
+                try {
+                    const response = await fetch('/api/download/start', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ url: magnetUrl, speed_limit: speedLimit || null })
+                    });
+                    
+                    if (!response.ok) {
+                        hideStatus();
+                        showToast('Gagal memproses Magnet link.', 'error');
+                        return;
+                    }
+                    
+                    const result = await response.json();
+                    if (result.success && result.task_id) {
+                        taskId = result.task_id;
+                    }
+                } catch (e) {
+                    hideStatus();
+                    showToast('Koneksi gagal.', 'error');
+                    return;
+                }
+            } else if (fileInput.files.length > 0) {
+                showStatus('Mengunggah Torrent...', 'Mengirim file .torrent ke server...');
+                const formData = new FormData();
+                formData.append('file', fileInput.files[0]);
+                if (speedLimit) {
+                    formData.append('speed_limit', speedLimit);
+                }
+                
+                try {
+                    const response = await fetch('/api/torrent/upload', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    if (!response.ok) {
+                        hideStatus();
+                        showToast('Gagal mengunggah file Torrent.', 'error');
+                        return;
+                    }
+                    
+                    const result = await response.json();
+                    if (result.success && result.task_id) {
+                        taskId = result.task_id;
+                    }
+                } catch (e) {
+                    hideStatus();
+                    showToast('Koneksi gagal.', 'error');
+                    return;
+                }
+            } else {
+                showToast('Masukkan link magnet atau unggah berkas .torrent terlebih dahulu!', 'error');
+                return;
+            }
+            
+            if (taskId) {
+                const progressContainer = document.getElementById('progress-container');
+                const progressBar = document.getElementById('progress-bar');
+                const progressPercent = document.getElementById('progress-percent');
+                const progressSpeed = document.getElementById('progress-speed');
+                const progressEta = document.getElementById('progress-eta');
+                
+                progressBar.style.width = '0%';
+                progressPercent.textContent = '0%';
+                progressSpeed.textContent = 'Menhubungkan Peer...';
+                progressEta.textContent = 'ETA: N/A';
+                progressContainer.style.display = 'block';
+                
+                pollTorrentProgress(taskId);
+            }
+        }
+
+        function pollTorrentProgress(taskId) {
+            const progressBar = document.getElementById('progress-bar');
+            const progressPercent = document.getElementById('progress-percent');
+            const progressSpeed = document.getElementById('progress-speed');
+            const progressEta = document.getElementById('progress-eta');
+            
+            const interval = setInterval(async () => {
+                try {
+                    const response = await fetch(`/api/download/status/${taskId}`);
+                    if (!response.ok) {
+                        clearInterval(interval);
+                        hideStatus();
+                        return;
+                    }
+                    
+                    const result = await response.json();
+                    if (!result.success || result.status === 'failed') {
+                        clearInterval(interval);
+                        hideStatus();
+                        showToast(result.error || 'Download torrent gagal.', 'error');
+                        return;
+                    }
+                    
+                    if (result.status === 'downloading') {
+                        showStatus('Mendownload Torrent (P2P)...', 'Menghubungkan ke peer dan tracker BitTorrent...');
+                        progressBar.style.width = `${result.progress}%`;
+                        progressPercent.textContent = `${result.progress}%`;
+                        progressSpeed.textContent = `Kecepatan: ${result.speed}`;
+                        progressEta.textContent = `ETA: ${result.eta}`;
+                    } else if (result.status === 'completed') {
+                        clearInterval(interval);
+                        
+                        showStatus('Download Torrent Selesai!', 'Berkas torrent Anda siap diunduh.');
+                        document.getElementById('status-spinner').style.display = 'none';
+                        progressBar.style.width = '100%';
+                        progressPercent.textContent = '100%';
+                        
+                        playChimeSound();
+                        showNotification('Torrent Selesai!', 'Berkas torrent Anda telah siap diunduh.');
+                        
+                        const rawTitle = result.filename || 'torrent_download';
+                        addDownloadToHistory(rawTitle, 'P2P Torrent Downloader', 'video', 'torrent');
+                        
+                        const downloadUrl = `/api/download/file/${taskId}`;
+                        const qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + encodeURIComponent(window.location.origin + downloadUrl);
+                        
+                        document.getElementById('qr-code-img').src = qrUrl;
+                        document.getElementById('btn-final-download').href = downloadUrl;
+                        document.getElementById('btn-final-download').download = rawTitle;
+                        
+                        document.getElementById('success-container').style.display = 'block';
+                        
+                        const playBtn = document.getElementById('btn-play-media');
+                        playBtn.style.display = 'inline-block';
+                        activePlayerTaskId = taskId;
+                        activePlayerFilename = rawTitle;
+                        
+                        updateServerStatus();
+                        
+                        triggerFileDownload(downloadUrl, 'torrent');
+                    }
+                } catch (e) {
+                    clearInterval(interval);
+                    hideStatus();
+                }
+            }, 1000);
+        }
+
+        let activePlayerTaskId = null;
+        let activePlayerFilename = '';
+
+        function openMediaPlayer() {
+            if (!activePlayerTaskId) return;
+            
+            const modal = document.getElementById('player-modal');
+            const titleEl = document.getElementById('player-title');
+            
+            titleEl.textContent = activePlayerFilename.replace(/^[a-f0-9]{32}_/, '');
+            modal.style.display = 'flex';
+            
+            const fileUrl = `/api/download/file/${activePlayerTaskId}`;
+            
+            const isAudio = activePlayerFilename.endsWith('.mp3') || activePlayerFilename.endsWith('.wav') || activePlayerFilename.endsWith('.m4a');
+            
+            if (isAudio) {
+                document.getElementById('player-video-container').style.display = 'none';
+                document.getElementById('player-audio-container').style.display = 'flex';
+                
+                const audioEl = document.getElementById('media-audio-el');
+                audioEl.src = fileUrl;
+                audioEl.load();
+                audioEl.play().catch(e => console.log('Auto-play blocked or failed', e));
+            } else {
+                document.getElementById('player-video-container').style.display = 'block';
+                document.getElementById('player-audio-container').style.display = 'none';
+                
+                const videoEl = document.getElementById('media-video-el');
+                videoEl.src = fileUrl;
+                videoEl.load();
+                videoEl.play().catch(e => console.log('Auto-play blocked or failed', e));
+            }
+        }
+
+        function closeMediaPlayer() {
+            const videoEl = document.getElementById('media-video-el');
+            const audioEl = document.getElementById('media-audio-el');
+            
+            videoEl.pause();
+            audioEl.pause();
+            
+            videoEl.removeAttribute('src');
+            audioEl.removeAttribute('src');
+            
+            videoEl.load();
+            audioEl.load();
+            
+            document.getElementById('player-modal').style.display = 'none';
+        }
+
+        async function downloadDirectFile() {
+            const url = document.getElementById('direct-url').value.trim();
+            const speedLimit = document.getElementById('direct-speed-limit').value;
+            
+            if (!url) {
+                showToast('Masukkan URL file terlebih dahulu!', 'error');
+                return;
+            }
+            
+            await downloadGeneric('other', url, speedLimit || null);
+        }
+
+        function copyDownloadLink() {
+            const downloadUrl = document.getElementById('btn-final-download').href;
+            if (downloadUrl) {
+                const absoluteUrl = new URL(downloadUrl, window.location.origin).href;
+                navigator.clipboard.writeText(absoluteUrl).then(() => {
+                    showToast('Link unduhan berhasil disalin ke clipboard!', 'success');
+                    
+                    const copyBtn = document.getElementById('btn-copy-link');
+                    const origHtml = copyBtn.innerHTML;
+                    copyBtn.innerHTML = '<i class="fa-solid fa-check" style="color: #10b981;"></i> Tersalin';
+                    setTimeout(() => {
+                        copyBtn.innerHTML = origHtml;
+                    }, 2000);
+                }).catch(() => {
+                    showToast('Gagal menyalin link.', 'error');
+                });
+            }
+        }
+
+        function toggleButtonsLoading(isLoading) {
+            const buttons = [
+                document.getElementById('btn-youtube-start'),
+                document.getElementById('btn-img-download'),
+                document.getElementById('btn-anim-download'),
+                document.getElementById('btn-direct-download'),
+                document.getElementById('btn-torrent-download'),
+                document.getElementById('btn-grab')
+            ];
+            
+            buttons.forEach(btn => {
+                if (btn) {
+                    btn.disabled = isLoading;
+                    btn.style.opacity = isLoading ? '0.6' : '1.0';
+                    btn.style.cursor = isLoading ? 'not-allowed' : 'pointer';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
