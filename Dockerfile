@@ -1,9 +1,9 @@
 FROM python:3.12-slim
 
-# Install system dependencies (ffmpeg and aria2c)
+# Install system dependencies (ffmpeg and aria2)
 RUN apt-get update && apt-get install -y \
     ffmpeg \
-    aria2c \
+    aria2 \
     && rm -rf /var/lib/apt/lists/*
 
 # Set up a new user named "user" with UID 1000 to comply with Hugging Face Spaces security
