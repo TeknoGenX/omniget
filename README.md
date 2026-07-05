@@ -57,9 +57,7 @@ media_downloader/
 │   └── index.html             # Antarmuka Glassmorphism Premium
 └── docs/                      # Pusat Dokumentasi Lengkap
     ├── bug_analysis_summary.md # Laporan detail 12 bug & perbaikan keamanan
-    ├── free_hosting_guide.md   # Rekomendasi & cara hosting gratis selamanya
     ├── huggingface_deployment.md # Panduan langkah demi langkah rilis ke Hugging Face
-    └── payment_gate_history.md  # Arsip dokumentasi integrasi Midtrans & lisensi
 ```
 
 Silakan tinjau folder **[docs/](file:///home/andi-liani/code/media_downloader/docs/)** untuk mempelajari arsitektur teknis lebih mendalam.
