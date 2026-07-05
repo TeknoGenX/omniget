@@ -1,19 +1,9 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
+# Ignore everything by default
+/*
 
-# Virtual Environments
-venv/
-.venv/
-env/
-.env/
+# Except the omniget release folder
+!/omniget/
+!/omniget/**
 
-# App Downloads & Temp
-downloads/
-temp/
-*.log
-
-# Debian Build Temp
-build_deb/
+# Except this .gitignore file
+!.gitignore
