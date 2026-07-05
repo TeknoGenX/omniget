@@ -1,91 +1,101 @@
----
-title: OmniGet
-emoji: ☁️
-colorFrom: purple
-colorTo: indigo
-sdk: docker
-app_port: 7860
-pinned: false
----
+# OmniGet - Release & Distribution Package
 
-# OmniGet - Universal Media Downloader & P2P Torrent Client
-
-OmniGet adalah aplikasi web pengunduh media multi-fungsi berskala premium berbasis Python (Flask) dan antarmuka web modern (Vanilla HTML/CSS/JS dengan visual Glassmorphism). Aplikasi ini dirancang untuk memberikan pengalaman pengunduhan yang cepat, aman, dan tanpa iklan untuk berbagai jenis konten digital.
+Ini adalah repositori rilis dan distribusi resmi untuk **OmniGet**, media downloader universal dengan antarmuka **Glassmorphism Premium**. Repositori ini menyediakan paket instalasi Debian (`.deb`) siap pasang, dokumentasi lengkap, panduan deployment, serta panduan pengguna akhir.
 
 ---
 
-## 🚀 Fitur Utama
+## 🚀 Fitur Utama OmniGet
 
 1. **Universal Video & Audio Downloader**:
-   * Mengunduh video (MP4) hingga resolusi 1080p dan audio (MP3) dari YouTube, TikTok, dan puluhan platform lainnya menggunakan `yt-dlp`.
-   * Integrasi pemotongan waktu (*ffmpeg media trimming*) secara presisi sebelum berkas dikirim ke pengguna.
-   * Multi-threaded Segmented Downloader untuk mempercepat pengunduhan berkas langsung.
+   * Mengunduh video (MP4) hingga resolusi 1080p dan audio (MP3) dari YouTube, TikTok, Instagram, Twitter/X, dan lainnya menggunakan backend `yt-dlp` terupdate.
+   * Integrasi pemotongan media (*ffmpeg trimming*) secara presisi sebelum berkas diunduh.
+   * Batasan kecepatan (*speed limiter*) dinamis.
 2. **P2P Torrent Downloader**:
-   * Pengunduhan magnet link dan file `.torrent` menggunakan engine backend berkinerja tinggi `aria2c`.
-   * Isolasi proses unduhan torrent untuk menjamin keamanan data dan menghindari bentrokan berkas (*race condition*).
+   * Pengunduhan magnet link dan file `.torrent` menggunakan engine backend berkinerja tinggi `aria2`.
 3. **Site Media Grabber**:
-   * Menjelajahi dan menyaring (*crawling*) seluruh berkas gambar, video, audio, dan dokumen dari halaman website apa saja secara instan.
-4. **Keamanan Kelas Industri (Hardened Security)**:
-   * Proteksi penuh terhadap celah *Server-Side Request Forgery* (SSRF) dan bypass pengalihan HTTP 302.
-   * Perlindungan terhadap *DOM-based Cross-Site Scripting* (XSS) melalui sanitasi keluaran dinamis.
-   * Pencegahan eksploitasi *Path Traversal* dan *Argument Injection*.
-5. **Manajemen Penyimpanan Otomatis**:
-   * Daemon latar belakang pembersih berkas kedaluwarsa secara berkala (menghapus berkas dan folder isolasi berusia > 10 menit untuk mencegah kebocoran *disk space*).
+   * Menjelajahi dan mengunduh seluruh berkas gambar, video, audio, dan dokumen dari halaman website apa saja secara massal.
+4. **Bookmarklet Instan**:
+   * Tombol pintas sekali klik di bilah browser untuk menganalisis dan mengunduh video secara instan tanpa perlu bolak-balik menyalin tautan.
+5. **Keamanan Kelas Industri (Hardened Security)**:
+   * Proteksi SSRF, bypass redirect HTTP 302, XSS, Path Traversal, dan Argument Injection.
 
 ---
 
-## 📁 Struktur Proyek & Indeks Dokumentasi
+## 📁 Struktur Direktori Rilis
+
+Berikut adalah susunan berkas dalam paket rilis distribusi ini:
 
 ```text
-media_downloader/
-├── app.py                     # Entrypoint aplikasi Flask
-├── config.py                  # Konfigurasi global & status penyimpanan memori
-├── Dockerfile                 # Konfigurasi kontainerisasi Hugging Face Spaces & Docker
-├── requirements.txt           # Daftar dependensi Python produksi
-├── core/                      # Engine logika utama
-│   ├── cleanup.py             # Daemon pembersih berkas sampah & direktori isolasi
-│   ├── security.py            # Validasi URL (SSRF) & wrapper HTTP client aman
-│   ├── torrent_engine.py      # Integrasi pengunduh P2P aria2c
-│   └── ytdlp_engine.py        # Integrasi parser yt-dlp & pemrosesan ffmpeg
-├── routes/                    # API Endpoints (Flask Blueprints)
-│   ├── download.py            # API Unduhan universal, berkas, & lirik
-│   ├── grabber.py             # API crawling media situs web
-│   ├── main.py                # Route web statis & status server
-│   └── torrent.py             # API unggah & pemrosesan torrent
-├── static/                    # Aset statis (CSS, JS, robots.txt, sitemap.xml)
-├── templates/
-│   └── index.html             # Antarmuka Glassmorphism Premium
-└── docs/                      # Pusat Dokumentasi Lengkap
-    ├── bug_analysis_summary.md # Laporan detail 12 bug & perbaikan keamanan
-    ├── free_hosting_guide.md   # Rekomendasi & cara hosting gratis selamanya
-    ├── huggingface_deployment.md # Panduan langkah demi langkah rilis ke Hugging Face
-    └── payment_gate_history.md  # Arsip dokumentasi integrasi Midtrans & lisensi
+omniget/
+├── README.md               # Deskripsi umum rilis (berkas ini)
+├── LICENSE                 # Berkas Lisensi MIT resmi
+├── CHANGELOG.md            # Riwayat perubahan & perbaikan bug versi 1.0.0
+├── INSTALL.md              # Panduan pemasangan cepat (.deb)
+├── screenshots/
+│   └── dashboard_mockup.jpg # Tangkapan layar antarmuka premium Glassmorphism UI
+├── docs/                   # Pusat Dokumentasi Lengkap
+│   ├── bug_analysis_summary.md        # Rangkuman perbaikan 13 bug & audit keamanan
+│   ├── free_hosting_guide.md          # Panduan hosting gratis selamanya (Docker/VPS)
+│   ├── huggingface_deployment.md      # Panduan deployment instan ke HF Spaces
+│   ├── user_guide.md                  # Panduan lengkap penggunaan 5 fitur utama
+│   ├── debian_packaging_technical.md  # Dokumentasi teknis automasi paket .deb
+│   └── seo_optimization_report.md     # Panduan SEO untuk peringkat #1 Google
+├── omniget_1.0.0_amd64.deb # Paket instalasi Debian amd64 siap pasang
+└── SHA256SUMS              # Hash SHA-256 untuk verifikasi berkas
 ```
 
-Silakan tinjau folder **[docs/](file:///home/andi-liani/code/media_downloader/docs/)** untuk mempelajari arsitektur teknis lebih mendalam.
+---
+
+## 📥 Panduan Instalasi Cepat
+
+### 1. Pasang Dependensi Utama
+OmniGet membutuhkan `aria2` dan `ffmpeg` untuk berfungsi di sistem host Linux Anda. Jalankan perintah berikut di terminal:
+
+```bash
+sudo apt-get update
+sudo apt-get install -y aria2 ffmpeg
+```
+
+*(Catatan: Pengguna Ubuntu harap memastikan repositori `universe` aktif dengan menjalankan `sudo add-apt-repository universe` jika paket `aria2` tidak ditemukan).*
+
+### 2. Pasang Paket Debian OmniGet
+Pasang paket `.deb` yang ada di repositori ini:
+
+```bash
+sudo dpkg -i omniget_1.0.0_amd64.deb
+```
+
+Jika terdapat galat mengenai dependensi yang belum terpenuhi, perbaiki dengan perintah:
+```bash
+sudo apt-get install -f -y
+```
 
 ---
 
-## 🛠️ Persyaratan Sistem Lokal
+## 🚀 Cara Menjalankan Aplikasi
+* **Mengakses Antarmuka Web**:
+  Buka browser Anda dan akses **`http://localhost:5000`** atau ketik perintah di bawah ini di terminal:
+  ```bash
+  omniget
+  ```
 
-* **Sistem Operasi**: Linux / macOS / Windows
-* **Python**: Versi 3.12+ (Virtual environment dikonfigurasi pada `/home/andi-liani/virtual/venv`)
-* **Dependensi Sistem**:
-  * `ffmpeg` (Untuk konversi audio dan penggabungan video)
-  * `aria2c` (Untuk mengunduh file P2P Torrent)
+* **Mengelola Layanan Latar Belakang (Systemd)**:
+  Layanan OmniGet berjalan sebagai service daemon di latar belakang.
+  ```bash
+  # Periksa status layanan
+  sudo systemctl status omniget.service
+  
+  # Menghentikan/menjalankan kembali layanan
+  sudo systemctl stop omniget.service
+  sudo systemctl start omniget.service
+  ```
 
 ---
 
-## 💻 Cara Menjalankan Secara Lokal
+## 🔒 Verifikasi Keamanan Berkas (SHA-256 Checksum)
+Untuk memastikan berkas `.deb` yang Anda unduh identik dan tidak mengalami kerusakan selama transfer, lakukan pencocokan hash SHA-256 berikut:
 
-1. Pastikan dependensi sistem (`ffmpeg` dan `aria2c`) sudah terpasang dan dapat diakses di PATH.
-2. Aktifkan virtual environment Anda dan install dependensi:
-   ```bash
-   source /home/andi-liani/virtual/venv/bin/activate
-   pip install -r requirements.txt
-   ```
-3. Jalankan aplikasi Flask:
-   ```bash
-   python app.py
-   ```
-4. Buka browser Anda dan akses: **[http://localhost:5000](http://localhost:5000)**
+```bash
+sha256sum -c SHA256SUMS
+```
+Hasil verifikasi yang sukses akan memunculkan pesan: `omniget_1.0.0_amd64.deb: OK`.
