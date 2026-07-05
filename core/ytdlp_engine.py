@@ -145,7 +145,7 @@ def download_chunk(url, start_byte, end_byte, chunk_file_path, thread_idx, progr
                             download_tasks[task_id]['eta'] = eta_str
     except Exception as e:
         print(f"Chunk download error: {e}")
-        progress_dict[f'failed_{thread_idx}'] = True
+        progress_dict[thread_idx] = -1
 
 def multithreaded_download(url, output_path, num_threads=4, task_id=None):
     try:
@@ -189,7 +189,7 @@ def multithreaded_download(url, output_path, num_threads=4, task_id=None):
             
         # Verify if any segment failed
         for i in range(num_threads):
-            if progress_dict.get(f'failed_{i}'):
+            if progress_dict.get(i) == -1:
                 raise Exception(f"Segmented chunk {i} failed to download completely.")
                 
         with open(output_path, 'wb') as outfile:
@@ -401,7 +401,7 @@ def run_yt_dlp_download(task_id, url, format_type, start_time=None, end_time=Non
                     if actual_ext == 'mp3':
                         embed_lyrics_in_mp3(filepath, plain_lyrics)
  
-            safe_title = clean_filename(title)
+            safe_title = clean_filename(title) or 'download'
             download_name = f"{safe_title}.{actual_ext}"
             
             if task_id in download_tasks:

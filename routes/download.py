@@ -173,6 +173,7 @@ def start_download():
             'filepath': None,
             'filename': None,
             'error': None,
+            'speed_limit': speed_limit,
             'created_at': time.time()
         }
         threading.Thread(target=run_aria2c_download, args=(task_id, url, speed_limit), daemon=True).start()
@@ -189,6 +190,7 @@ def start_download():
             'filename': None,
             'error': None,
             'scheduled_time': scheduled_time,
+            'speed_limit': speed_limit,
             'created_at': time.time()
         }
         
@@ -208,6 +210,7 @@ def start_download():
         'filepath': None,
         'filename': None,
         'error': None,
+        'speed_limit': speed_limit,
         'created_at': time.time()
     }
     
@@ -349,7 +352,7 @@ def download_subtitle():
                 raise FileNotFoundError('Subtitle file not found')
                 
             filepath = os.path.join(DOWNLOAD_DIR, filename)
-            safe_title = clean_filename(title)
+            safe_title = clean_filename(title) or 'subtitle'
             actual_ext = filename.split('.')[-1]
             download_name = f"{safe_title}.{lang}.{actual_ext}"
             
@@ -398,7 +401,7 @@ def download_thumbnail():
         res = safe_requests_get(thumbnail_url, headers=headers, stream=True, timeout=15)
         res.raise_for_status()
         
-        safe_title = clean_filename(title)
+        safe_title = clean_filename(title) or 'thumbnail'
         filename = f"{safe_title}_thumbnail.jpg"
         
         def generate():

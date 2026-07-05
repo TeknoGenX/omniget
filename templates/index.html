@@ -157,40 +157,272 @@
         /* App Container Layout */
         .app-container {
             width: 100%;
-            max-width: 800px;
+            max-width: 1200px;
             z-index: 1;
         }
 
-        /* Header design */
-        header {
-            text-align: center;
-            margin-bottom: 2.25rem;
-        }
-
-        header h1 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 3rem;
-            font-weight: 800;
-            background: linear-gradient(to right, #ffffff, #c084fc, #60a5fa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
-            letter-spacing: -0.03em;
-            display: inline-flex;
+        /* Dashboard Header design */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 0.75rem;
+            width: 100%;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
-        body.light-theme header h1 {
-            background: linear-gradient(to right, #111827, #6b21a8, #1e3a8a);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
         }
 
-        header p {
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--primary-gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .logo-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.65rem;
+            font-weight: 800;
+            color: white;
+            line-height: 1.15;
+        }
+
+        body.light-theme .logo-title {
+            color: #111827;
+        }
+
+        .logo-subtitle {
+            font-size: 0.78rem;
             color: var(--text-secondary);
-            font-size: 1.05rem;
-            font-weight: 400;
+            font-weight: 500;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.2s;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        body.light-theme .nav-item:hover, body.light-theme .nav-item.active {
+            color: #111827;
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        /* Global Search Bar */
+        .search-section {
+            width: 100%;
+            margin-bottom: 1.75rem;
+        }
+        .search-bar-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 0.4rem;
+            width: 100%;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.12);
+            transition: all var(--transition-speed);
+        }
+        .search-bar-wrapper:focus-within {
+            border-color: #06b6d4; /* Cyan accent border */
+            box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.15), inset 0 2px 4px rgba(0,0,0,0.08);
+        }
+        .search-bar-wrapper i.search-icon {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-left: 1.25rem;
+            margin-right: 0.75rem;
+        }
+        .search-bar-wrapper input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: white;
+            font-size: 0.95rem;
+            flex-grow: 1;
+            height: 44px;
+        }
+        body.light-theme .search-bar-wrapper input {
+            color: #1f2937;
+        }
+        .search-bar-wrapper input::placeholder {
+            color: rgba(255, 255, 255, 0.35);
+        }
+        body.light-theme .search-bar-wrapper input::placeholder {
+            color: rgba(0, 0, 0, 0.35);
+        }
+        .plus-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            cursor: pointer;
+            margin-right: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-speed);
+        }
+        .plus-btn:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        .start-download-btn {
+            background: transparent;
+            border: 2px solid #06b6d4;
+            color: #06b6d4;
+            font-weight: 700;
+            font-size: 0.9rem;
+            padding: 0 1.25rem;
+            height: 44px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: 0.02em;
+        }
+        .start-download-btn:hover {
+            background: #06b6d4;
+            color: #070712;
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
+        }
+
+        /* Dashboard Grid Layout */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1.55fr 1.05fr;
+            gap: 1.5rem;
+            width: 100%;
+        }
+        @media (max-width: 992px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .dashboard-left {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .dashboard-right {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Circular progress styling inside status container */
+        .circular-progress-area {
+            flex-shrink: 0;
+        }
+        .circular-progress {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .progress-ring__circle {
+            transition: stroke-dashoffset 0.35s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+        .progress-val {
+            position: absolute;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: white;
+            font-family: 'Outfit', sans-serif;
+        }
+        body.light-theme .progress-val {
+            color: #1f2937;
+        }
+
+        /* Speed Chart & Activity Cards */
+        .speed-chart-card, .activity-chart-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .speed-chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            text-align: left;
+        }
+        .speed-label {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            letter-spacing: 0.05em;
+            display: block;
+        }
+        .speed-unit {
+            font-size: 0.72rem;
+            color: rgba(255,255,255,0.3);
+            text-transform: uppercase;
+        }
+        body.light-theme .speed-unit {
+            color: rgba(0,0,0,0.3);
+        }
+        .speed-value {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.65rem;
+            font-weight: 800;
+            color: #06b6d4;
+            line-height: 1.1;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 180px;
         }
 
         /* Glassmorphism Main Card */
@@ -209,42 +441,53 @@
         /* Tabs Navigation Row */
         .tabs {
             display: flex;
-            flex-wrap: wrap;
-            background: rgba(0, 0, 0, 0.25);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 0.35rem;
+            gap: 1.5rem;
+            border-bottom: 1.5px solid rgba(255,255,255,0.06);
+            padding: 0.5rem 0;
             margin-bottom: 2rem;
-            gap: 0.25rem;
+            background: transparent;
+            border-radius: 0;
+            flex-wrap: wrap;
+        }
+
+        body.light-theme .tabs {
+            border-bottom: 1.5px solid rgba(0,0,0,0.06);
         }
 
         .tab-btn {
-            flex: 1;
-            min-width: 110px;
             background: transparent;
             border: none;
             color: var(--text-secondary);
-            padding: 0.75rem 1rem;
-            border-radius: 12px;
-            font-size: 0.88rem;
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
+            padding: 0.6rem 0.25rem;
+            position: relative;
+            transition: color 0.2s;
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 0.5rem;
-            transition: all var(--transition-speed);
         }
 
         .tab-btn:hover {
             color: var(--text-primary);
-            background: rgba(255, 255, 255, 0.04);
         }
 
         .tab-btn.active {
-            color: #ffffff;
+            color: var(--text-primary);
+            background: transparent;
+            box-shadow: none;
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1.5px;
+            left: 0;
+            right: 0;
+            height: 2px;
             background: var(--primary-gradient);
-            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.25);
+            box-shadow: 0 0 10px hsl(var(--hue-1), 85%, 65%);
         }
 
         /* Content Forms */
@@ -526,13 +769,35 @@
     </div>
 
     <div class="app-container">
-        <header>
-            <h1 id="app-title"><i class="fa-solid fa-cloud-arrow-down"></i> OmniGet - Media Downloader Gratis</h1>
-            <p>Download video, audio, gambar, animasi, torrent (P2P), dan berkas langsung (ISO/EXE/ZIP) dalam satu platform terpadu.</p>
+        <!-- Professional Dashboard Header -->
+        <header class="dashboard-header">
+            <div class="logo-area">
+                <div class="logo-icon"><i class="fa-solid fa-cloud-arrow-down"></i></div>
+                <div class="logo-text">
+                    <span class="logo-title">OmniGet</span>
+                    <span class="logo-subtitle">Universal Media Downloader</span>
+                </div>
+            </div>
+            <div class="header-nav">
+                <a href="#" class="nav-item active"><i class="fa-solid fa-house"></i> Home</a>
+                <a href="#" class="nav-item" onclick="switchTab('youtube')"><i class="fa-solid fa-download"></i> Downloads</a>
+                <a href="#" class="nav-item" onclick="switchTab('analytics')"><i class="fa-solid fa-chart-line"></i> Activity</a>
+                <a href="#" class="nav-item" onclick="openCookiesModal()"><i class="fa-solid fa-gear"></i> Settings</a>
+            </div>
         </header>
 
         <!-- Main Workspace Card -->
         <div class="main-card">
+            <!-- Global Search Section -->
+            <div class="search-section">
+                <div class="search-bar-wrapper">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="global-url-input" placeholder="Paste media URL here to download..." oninput="syncGlobalUrl(this.value)">
+                    <button class="plus-btn" onclick="openCookiesModal()" title="YouTube Cookies"><i class="fa-solid fa-cookie-bite"></i></button>
+                    <button class="start-download-btn" onclick="triggerGlobalStart()">START DOWNLOAD</button>
+                </div>
+            </div>
+
             <!-- Navigation Tabs -->
             <div class="tabs" role="tablist">
                 <button class="tab-btn active" id="tab-youtube" onclick="switchTab('youtube')" role="tab" aria-selected="true">
@@ -557,6 +822,12 @@
                     <i class="fa-solid fa-chart-pie"></i> Analitik
                 </button>
             </div>
+
+            <!-- Dashboard Grid Layout -->
+            <div class="dashboard-grid">
+                <!-- Left Column -->
+                <div class="dashboard-left">
+                    <div id="tab-contents-container">
 
             <!-- Video / Audio Tab Content -->
             <div class="tab-content active" id="content-youtube" role="tabpanel">
@@ -894,105 +1165,158 @@
                     </button>
                 </div>
 
-                <!-- Global Status & Loading Card -->
-                <div class="status-container" id="status-card">
-                    <div class="spinner-wrapper" id="status-spinner">
-                        <div class="spinner"></div>
-                        <div class="spinner-inner"></div>
-                    </div>
-                    <div class="status-details" style="width: 100%;">
-                        <div class="status-title" id="status-title">Memproses Tautan...</div>
-                        <div class="status-desc" id="status-desc">Silakan tunggu sebentar. Kami sedang mengambil data media Anda.</div>
-                        
-                        <!-- Progress Bar Container -->
-                        <div id="progress-container" style="display: none; margin-top: 0.75rem; width: 100%;">
-                            <div style="background: rgba(255, 255, 255, 0.1); border-radius: 10px; height: 8px; overflow: hidden; width: 100%; position: relative; margin-bottom: 0.4rem;">
-                                <div id="progress-bar" style="background: var(--primary-gradient); height: 100%; width: 0%; transition: width 0.2s ease;"></div>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-secondary);">
-                                <span id="progress-percent" style="font-weight: 700; color: var(--text-primary);">0%</span>
-                                <span id="progress-speed">Kecepatan: N/A</span>
-                                <span id="progress-eta">ETA: N/A</span>
-                            </div>
-                        </div>
+                    </div> <!-- End of #tab-contents-container -->
 
-                        <!-- Success/QR Code Container -->
-                        <div id="success-container" style="display: none; margin-top: 1rem; width: 100%; text-align: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1rem; animation: panelFadeIn 0.3s ease;">
-                            <h4 style="color: #10b981; margin-bottom: 0.5rem;"><i class="fa-solid fa-circle-check"></i> Siap Diunduh!</h4>
-                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">Berkas telah selesai diproses di server.</p>
+                    <!-- Global Status & Loading Card (Styled as active task card) -->
+                    <div class="status-container" id="status-card" style="display: none; background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 20px; padding: 1.5rem; gap: 1.5rem; width: 100%; align-items: center; margin-top: 1rem; animation: slideDown 0.3s ease;">
+                        <!-- Circular progress ring -->
+                        <div class="circular-progress-area" id="circular-progress-area" style="display: none;">
+                             <div class="circular-progress">
+                                  <svg class="progress-ring" width="100" height="100">
+                                       <circle class="progress-ring__circle-bg" stroke="rgba(255,255,255,0.05)" stroke-width="6" fill="transparent" r="40" cx="50" cy="50"/>
+                                       <circle id="progress-ring-circle" class="progress-ring__circle" stroke="url(#progress-gradient)" stroke-width="6" fill="transparent" r="40" cx="50" cy="50" stroke-dasharray="251.2" stroke-dashoffset="251.2"/>
+                                       <defs>
+                                            <linearGradient id="progress-gradient-status" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                 <stop offset="0%" stop-color="hsl(var(--hue-1), 85%, 65%)"/>
+                                                 <stop offset="100%" stop-color="hsl(var(--hue-2), 85%, 60%)"/>
+                                            </linearGradient>
+                                       </defs>
+                                  </svg>
+                                  <span class="progress-val" id="active-progress-percent">0%</span>
+                             </div>
+                        </div>
+                        <div class="spinner-wrapper" id="status-spinner" style="flex-shrink: 0;">
+                            <div class="spinner"></div>
+                            <div class="spinner-inner"></div>
+                        </div>
+                        <div class="status-details" style="width: 100%; text-align: left;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
+                                <div class="status-title" id="status-title" style="font-size: 1.15rem; font-weight: 700; color: white;">Memproses Tautan...</div>
+                                <button onclick="hideStatus()" class="close-task-btn" id="active-close-btn" style="display: none; background: transparent; border: none; color: var(--text-secondary); cursor: pointer; font-size: 1.25rem;"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+                            <div class="status-desc" id="status-desc" style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Silakan tunggu sebentar. Kami sedang mengambil data media Anda.</div>
                             
-                            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem;">
-                                <!-- QR Code Image -->
-                                <div style="background: white; padding: 0.5rem; border-radius: 12px; display: inline-block; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
-                                    <img id="qr-code-img" src="" alt="QR Code Unduhan" style="width: 130px; height: 130px; display: block;">
+                            <!-- Progress Bar Info -->
+                            <div id="progress-container" style="display: none; margin-top: 0.5rem; width: 100%;">
+                                <div style="display: flex; gap: 1.25rem; font-size: 0.82rem; font-weight: 600; color: var(--text-secondary);">
+                                    <span id="progress-speed" style="color: #06b6d4;"><i class="fa-solid fa-bolt"></i> Kecepatan: N/A</span>
+                                    <span id="progress-eta"><i class="fa-regular fa-clock"></i> ETA: N/A</span>
                                 </div>
-                                <span style="font-size: 0.75rem; color: var(--text-secondary);"><i class="fa-solid fa-qrcode"></i> Pindai untuk unduh langsung ke Ponsel (pastikan satu jaringan Wi-Fi)</span>
+                                <div style="display: none;">
+                                    <!-- Keep progress-bar and linear progress elements present so existing JS functions do not fail -->
+                                    <div id="progress-bar" style="width: 0%;"></div>
+                                    <span id="progress-percent">0%</span>
+                                </div>
+                            </div>
+
+                            <!-- Success/QR Code Container -->
+                            <div id="success-container" style="display: none; margin-top: 1rem; width: 100%; text-align: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1rem; animation: panelFadeIn 0.3s ease;">
+                                <h4 style="color: #10b981; margin-bottom: 0.5rem;"><i class="fa-solid fa-circle-check"></i> Siap Diunduh!</h4>
+                                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">Berkas telah selesai diproses di server.</p>
                                 
-                                <!-- Lyrics Download Section -->
-                                <div id="success-lyrics" style="display: none; width: 100%; margin-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.5rem; flex-direction: column; gap: 0.3rem;">
-                                    <span style="font-size: 0.78rem; color: var(--text-secondary);"><i class="fa-solid fa-music"></i> Lirik lagu terdeteksi! Unduh berkas lirik:</span>
-                                    <div style="display: flex; gap: 0.5rem; justify-content: center;">
-                                        <a id="btn-lyrics-txt" href="" class="btn-sub" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); text-decoration: none;">
-                                            <i class="fa-regular fa-file-lines"></i> TXT (Polos)
+                                <div style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem;">
+                                    <!-- QR Code Image -->
+                                    <div style="background: white; padding: 0.5rem; border-radius: 12px; display: inline-block; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+                                        <img id="qr-code-img" src="" alt="QR Code Unduhan" style="width: 130px; height: 130px; display: block;">
+                                    </div>
+                                    <span style="font-size: 0.75rem; color: var(--text-secondary);"><i class="fa-solid fa-qrcode"></i> Pindai untuk unduh langsung ke Ponsel (pastikan satu jaringan Wi-Fi)</span>
+                                    
+                                    <!-- Lyrics Download Section -->
+                                    <div id="success-lyrics" style="display: none; width: 100%; margin-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.5rem; flex-direction: column; gap: 0.3rem;">
+                                        <span style="font-size: 0.78rem; color: var(--text-secondary);"><i class="fa-solid fa-music"></i> Lirik lagu terdeteksi! Unduh berkas lirik:</span>
+                                        <div style="display: flex; gap: 0.5rem; justify-content: center;">
+                                            <a id="btn-lyrics-txt" href="" class="btn-sub" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); text-decoration: none;">
+                                                <i class="fa-regular fa-file-lines"></i> TXT (Polos)
+                                            </a>
+                                            <a id="btn-lyrics-lrc" href="" class="btn-sub" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); text-decoration: none;">
+                                                <i class="fa-regular fa-clock"></i> LRC (Sinkron)
+                                            </a>
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem; flex-wrap: wrap; justify-content: center;">
+                                        <a id="btn-final-download" href="" class="btn-sub btn-mp4" style="text-decoration: none; padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 8px;">
+                                            <i class="fa-solid fa-download"></i> Unduh ke PC
                                         </a>
-                                        <a id="btn-lyrics-lrc" href="" class="btn-sub" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); text-decoration: none;">
-                                            <i class="fa-regular fa-clock"></i> LRC (Sinkron)
-                                        </a>
+                                        <button id="btn-play-media" class="btn-sub" onclick="openMediaPlayer()" style="background: var(--accent-gradient); border: none; color: white; padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 8px; cursor: pointer; display: none; font-weight: 600;">
+                                            <i class="fa-solid fa-play"></i> Putar Media
+                                        </button>
+                                        <button id="btn-copy-link" class="btn-sub" onclick="copyDownloadLink()" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 8px; cursor: pointer;">
+                                            <i class="fa-solid fa-copy"></i> Salin Link
+                                        </button>
+                                        <button class="btn-sub" onclick="hideStatus()" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 8px; cursor: pointer;">
+                                            Tutup
+                                        </button>
                                     </div>
                                 </div>
-                                
-                                <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem; flex-wrap: wrap; justify-content: center;">
-                                    <a id="btn-final-download" href="" class="btn-sub btn-mp4" style="text-decoration: none; padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 8px;">
-                                        <i class="fa-solid fa-download"></i> Unduh ke PC
-                                    </a>
-                                    <button id="btn-play-media" class="btn-sub" onclick="openMediaPlayer()" style="background: var(--accent-gradient); border: none; color: white; padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 8px; cursor: pointer; display: none; font-weight: 600;">
-                                        <i class="fa-solid fa-play"></i> Putar Media
-                                    </button>
-                                    <button id="btn-copy-link" class="btn-sub" onclick="copyDownloadLink()" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 8px; cursor: pointer;">
-                                        <i class="fa-solid fa-copy"></i> Salin Link
-                                    </button>
-                                    <button class="btn-sub" onclick="hideStatus()" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 8px; cursor: pointer;">
-                                        Tutup
-                                    </button>
-                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- Recent Downloads Card -->
-            <div class="main-card" id="history-card" style="padding: 1.5rem; display: none;">
-                <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; color: var(--text-primary);">
-                    <i class="fa-solid fa-clock-rotate-left" style="color: #8b5cf6;"></i> Riwayat Unduhan Terakhir
-                </h3>
-                <div id="history-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
-                    <!-- History items will be dynamically added here -->
-                </div>
-                <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
-                    <button class="btn-sub" id="btn-clear-history" onclick="clearHistory()" style="background: transparent; border: 1px solid rgba(255,255,255,0.1); color: var(--text-secondary); padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.8rem; display: flex; align-items: center; gap: 0.4rem; cursor: pointer; transition: all 0.2s;">
-                        <i class="fa-solid fa-trash-can"></i> Bersihkan Riwayat
-                    </button>
-                </div>
-            </div>
+                    <!-- History / Task List Card -->
+                    <div class="speed-chart-card" id="history-section-card" style="margin-top: 1rem; text-align: left; padding: 1.5rem;">
+                         <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.15rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; color: var(--text-primary);">
+                             <i class="fa-solid fa-clock-rotate-left" style="color: #06b6d4;"></i> Task History
+                         </h3>
+                         <div id="dashboard-history-list" style="display: flex; flex-direction: column; gap: 0.5rem; max-height: 300px; overflow-y: auto;">
+                              <!-- History items will be dynamically added here -->
+                         </div>
+                         <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
+                             <button class="btn-sub" id="btn-clear-history" onclick="clearHistory()" style="background: transparent; border: 1px solid rgba(255,255,255,0.1); color: var(--text-secondary); padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.78rem; display: flex; align-items: center; gap: 0.3rem; cursor: pointer; transition: all 0.2s;">
+                                 <i class="fa-solid fa-trash-can"></i> Bersihkan Riwayat
+                             </button>
+                         </div>
+                    </div>
+                </div> <!-- End of .dashboard-left -->
 
-            <!-- Bookmarklet Card -->
-            <div class="main-card" id="bookmarklet-card" style="padding: 1.5rem;">
+                <!-- Right Column -->
+                <div class="dashboard-right">
+                     <!-- Card 1: Download Speed Chart -->
+                     <div class="speed-chart-card">
+                          <div class="speed-chart-header">
+                               <div>
+                                    <span class="speed-label">DOWNLOAD SPEED</span>
+                                    <span class="speed-unit">Mbps</span>
+                               </div>
+                               <span class="speed-value" id="current-speed-val">0.0 Mbps</span>
+                          </div>
+                          <div class="chart-container">
+                               <canvas id="speed-realtime-chart"></canvas>
+                          </div>
+                     </div>
+                     
+                     <!-- Card 2: Activity Feed / History Chart -->
+                     <div class="activity-chart-card">
+                          <div class="speed-chart-header">
+                               <div>
+                                    <span class="speed-label">ACTIVITY FEED</span>
+                                    <span class="speed-unit">history</span>
+                               </div>
+                          </div>
+                          <div class="chart-container">
+                               <canvas id="activity-history-chart"></canvas>
+                          </div>
+                     </div>
+                </div> <!-- End of .dashboard-right -->
+            </div> <!-- End of .dashboard-grid -->
+
+            <!-- Bookmarklet Card (moved below the grid but inside the main-card) -->
+            <div class="speed-chart-card" id="bookmarklet-card" style="margin-top: 1.5rem; text-align: left; padding: 1.5rem;">
                 <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; color: var(--text-primary);">
                     <i class="fa-solid fa-bookmark" style="color: #ec4899;"></i> Bookmarklet OmniGet Instan
                 </h3>
                 <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1rem;">
-                    Seret tombol ungu di bawah ke bar bookmark browser Anda. Ketika sedang membuka video YouTube atau TikTok, klik bookmark tersebut untuk menganalisisnya secara otomatis di OmniGet.
+                    Seret tombol di bawah ke bar bookmark browser Anda. Ketika sedang membuka video YouTube atau TikTok, klik bookmark tersebut untuk menganalisisnya secara otomatis di OmniGet.
                 </p>
                 <div style="display: flex; gap: 0.5rem; align-items: center;">
-                    <a href="javascript:(function(){var url=window.location.href;var omniUrl=window.location.origin+'/?url='+encodeURIComponent(url);window.open(omniUrl,'_blank');})();" class="btn-sub" style="background: var(--accent-gradient); color: white; padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.82rem; text-decoration: none; font-weight: 700; cursor: grab; box-shadow: 0 4px 15px rgba(236,72,153,0.2); display: flex; align-items: center; gap: 0.3rem;">
+                    <a id="bookmarklet-link" href="#" class="btn-sub" style="background: var(--accent-gradient); color: white; padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.82rem; text-decoration: none; font-weight: 700; cursor: grab; box-shadow: 0 4px 15px rgba(236,72,153,0.2); display: flex; align-items: center; gap: 0.3rem;">
                         <i class="fa-solid fa-bookmark"></i> Seret ke Bookmark
                     </a>
                 </div>
             </div>
 
-            <!-- Server Status Dashboard -->
-            <div class="main-card" style="padding: 1rem; text-align: center; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); box-shadow: none;">
+            <!-- Server Status Dashboard (moved below the grid but inside the main-card) -->
+            <div class="speed-chart-card" style="margin-top: 1.5rem; padding: 1rem; text-align: center;">
                 <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 2rem; font-size: 0.85rem; color: var(--text-secondary);">
                     <span><i class="fa-solid fa-hard-drive" style="color: #8b5cf6; margin-right: 0.3rem;"></i> Disk Bebas: <strong id="srv-disk" style="color: var(--text-primary);">N/A</strong></span>
                     <span><i class="fa-solid fa-folder-open" style="color: #ec4899; margin-right: 0.3rem;"></i> File Temp: <strong id="srv-files" style="color: var(--text-primary);">0</strong></span>
@@ -1166,11 +1490,162 @@
         let currentMediaInfo = null; // Store title, url, thumbnail, subtitles
         let analyticsChartInstance = null;
 
+        // Global Search Bar helpers
+        function syncGlobalUrl(val) {
+            // Mirror global URL input to active tab input fields
+            if (currentTab === 'youtube') document.getElementById('yt-url').value = val;
+            else if (currentTab === 'image') document.getElementById('img-url').value = val;
+            else if (currentTab === 'animation') document.getElementById('anim-url').value = val;
+            else if (currentTab === 'grabber') document.getElementById('grab-url').value = val;
+            else if (currentTab === 'torrent') document.getElementById('torrent-url').value = val;
+            else if (currentTab === 'direct') document.getElementById('direct-url').value = val;
+        }
+
+        function triggerGlobalStart() {
+            const globalUrl = document.getElementById('global-url-input').value.trim();
+            if (!globalUrl) {
+                showToast('Masukkan tautan / URL terlebih dahulu!', 'error');
+                return;
+            }
+            
+            // Sync values one more time
+            syncGlobalUrl(globalUrl);
+            
+            // Trigger correct action based on currentTab
+            if (currentTab === 'youtube') {
+                analyzeYoutube();
+            } else if (currentTab === 'image') {
+                downloadGeneric('image');
+            } else if (currentTab === 'animation') {
+                downloadGeneric('animation');
+            } else if (currentTab === 'grabber') {
+                grabSiteMedia();
+            } else if (currentTab === 'torrent') {
+                startTorrentDownload();
+            } else if (currentTab === 'direct') {
+                downloadDirectFile();
+            }
+        }
+
+        // Live Realtime Speed Chart helpers
+        let speedChartInstance = null;
+        let speedDataPoints = Array(12).fill(0);
+        let speedLabels = Array(12).fill('');
+
+        function initRealtimeSpeedChart() {
+            const ctx = document.getElementById('speed-realtime-chart').getContext('2d');
+            speedChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: speedLabels,
+                    datasets: [{
+                        label: 'Speed',
+                        data: speedDataPoints,
+                        borderColor: '#06b6d4',
+                        backgroundColor: 'rgba(6, 182, 212, 0.08)',
+                        fill: true,
+                        borderWidth: 2.5,
+                        tension: 0.4,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(255, 255, 255, 0.03)' },
+                            ticks: { color: '#9ca3af', font: { size: 9 } }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { display: false }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateRealtimeSpeedChart(speedStr) {
+            if (!speedChartInstance) return;
+            
+            let speedMbps = 0;
+            if (speedStr && speedStr !== 'N/A') {
+                const num = parseFloat(speedStr);
+                if (!isNaN(num)) {
+                    if (speedStr.includes('MB/s')) {
+                        speedMbps = num * 8.0;
+                    } else if (speedStr.includes('KB/s')) {
+                        speedMbps = (num * 8.0) / 1024.0;
+                    } else if (speedStr.includes('Gb/s') || speedStr.includes('GB/s') || speedStr.includes('Gbps')) {
+                        speedMbps = num * 1000.0;
+                    } else if (speedStr.includes('Mbps')) {
+                        speedMbps = num;
+                    }
+                }
+            }
+            
+            document.getElementById('current-speed-val').textContent = speedMbps > 1000 ? (speedMbps / 1000).toFixed(1) + ' Gbps' : speedMbps.toFixed(1) + ' Mbps';
+            
+            speedDataPoints.shift();
+            speedDataPoints.push(speedMbps);
+            speedChartInstance.update();
+        }
+
         // Load download history, server status, and theme settings on page load
         window.addEventListener('DOMContentLoaded', () => {
             renderHistory();
             updateServerStatus();
             setInterval(updateServerStatus, 10000);
+            
+            // Initialize charts
+            initRealtimeSpeedChart();
+            updateAnalyticsChart();
+            
+            // Set up MutationObserver to translate linear progress to circular progress gauge
+            const targetPercent = document.getElementById('progress-percent');
+            const targetSpeed = document.getElementById('progress-speed');
+            if (targetPercent) {
+                const observer = new MutationObserver(() => {
+                    let percentText = targetPercent.textContent || "0%";
+                    let percent = parseInt(percentText.replace('%', '')) || 0;
+                    
+                    const circle = document.getElementById('progress-ring-circle');
+                    const percentLabel = document.getElementById('active-progress-percent');
+                    if (circle) {
+                        const offset = 251.2 - (percent / 100) * 251.2;
+                        circle.style.strokeDashoffset = offset;
+                    }
+                    if (percentLabel) {
+                        percentLabel.textContent = percent + '%';
+                    }
+                    
+                    // Show circular gauge area and hide spinner when download is running
+                    const circArea = document.getElementById('circular-progress-area');
+                    const spinner = document.getElementById('status-spinner');
+                    if (percent > 0 && percent < 100) {
+                        if (circArea) circArea.style.display = 'block';
+                        if (spinner) spinner.style.display = 'none';
+                        const closeBtn = document.getElementById('active-close-btn');
+                        if (closeBtn) closeBtn.style.display = 'block';
+                    }
+                    
+                    // Update speed graph
+                    if (targetSpeed) {
+                        let speedText = targetSpeed.textContent || "";
+                        let speedVal = "0";
+                        if (speedText.includes("Kecepatan:")) {
+                            speedVal = speedText.replace("Kecepatan:", "").trim();
+                        } else if (speedText.includes("Speed:")) {
+                            speedVal = speedText.replace("Speed:", "").trim();
+                        }
+                        updateRealtimeSpeedChart(speedVal);
+                    }
+                });
+                observer.observe(targetPercent, { characterData: true, childList: true, subtree: true });
+            }
             
             // Request Notification permissions
             if ("Notification" in window && Notification.permission === "default") {
@@ -1190,6 +1665,13 @@
                 changeColorTheme(savedColor);
             }
             
+            // Update bookmarklet link with the absolute origin of this server
+            const bookmarklet = document.getElementById('bookmarklet-link');
+            if (bookmarklet) {
+                const origin = window.location.origin;
+                bookmarklet.href = `javascript:(function(){var url=window.location.href;var omniUrl='${origin}/?url='+encodeURIComponent(url);window.open(omniUrl,'_blank');})();`;
+            }
+            
             // Initial quality options
             adjustQualityOptions();
             
@@ -1197,7 +1679,9 @@
             const urlParams = new URLSearchParams(window.location.search);
             const queryUrl = urlParams.get('url');
             if (queryUrl) {
-                document.getElementById('yt-url').value = queryUrl;
+                document.getElementById('global-url-input').value = queryUrl;
+                // Sync to all tab fields
+                syncGlobalUrl(queryUrl);
                 analyzeYoutube();
             }
         });
@@ -2206,40 +2690,42 @@
         }
 
         function renderHistory() {
-            const historyList = document.getElementById('history-list');
-            const historyCard = document.getElementById('history-card');
+            const historyList = document.getElementById('dashboard-history-list');
+            if (!historyList) return;
+            
             const history = JSON.parse(localStorage.getItem('download_history') || '[]');
             
             if (history.length === 0) {
-                historyCard.style.display = 'none';
+                historyList.innerHTML = '<div style="text-align: center; color: var(--text-secondary); font-size: 0.85rem; padding: 2rem;">Tidak ada riwayat tugas</div>';
                 return;
             }
             
-            historyCard.style.display = 'block';
             historyList.innerHTML = '';
             
-            // Render top 5 in layout
-            history.slice(0, 5).forEach(item => {
+            // Render top 10 in layout
+            history.slice(0, 10).forEach(item => {
                 let iconClass = 'fa-solid fa-file';
                 let badgeColor = '#8b5cf6';
+                let statusText = 'Complete';
+                
                 if (item.type === 'video') { iconClass = 'fa-solid fa-video'; badgeColor = '#3b82f6'; }
                 else if (item.type === 'audio') { iconClass = 'fa-solid fa-music'; badgeColor = '#ec4899'; }
                 else if (item.type === 'image') { iconClass = 'fa-regular fa-image'; badgeColor = '#10b981'; }
                 else if (item.type === 'animation') { iconClass = 'fa-solid fa-wand-magic-sparkles'; badgeColor = '#f59e0b'; }
                 else if (item.type === 'text') { iconClass = 'fa-regular fa-closed-captioning'; badgeColor = '#10b981'; }
+                else if (item.type === 'torrent') { iconClass = 'fa-solid fa-cloud-arrow-down'; badgeColor = '#06b6d4'; statusText = 'Seeding'; }
                 
                 const itemEl = document.createElement('div');
                 itemEl.style.display = 'flex';
                 itemEl.style.alignItems = 'center';
                 itemEl.style.justifyContent = 'space-between';
                 itemEl.style.padding = '0.75rem 1rem';
-                itemEl.style.background = 'rgba(255, 255, 255, 0.03)';
-                itemEl.style.border = '1px solid rgba(255, 255, 255, 0.05)';
-                itemEl.style.borderRadius = '12px';
+                itemEl.style.background = 'rgba(255, 255, 255, 0.02)';
+                itemEl.style.borderBottom = '1px solid rgba(255, 255, 255, 0.04)';
                 itemEl.style.gap = '1rem';
                 
                 itemEl.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 0.75rem; overflow: hidden; flex-grow: 1;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; overflow: hidden; flex-grow: 1; text-align: left;">
                         <div style="width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                             <i class="${iconClass}" style="color: ${badgeColor}; font-size: 1.1rem;"></i>
                         </div>
@@ -2250,8 +2736,8 @@
                             </span>
                         </div>
                     </div>
-                    <span style="font-size: 0.75rem; font-weight: 700; background: ${badgeColor}20; color: ${badgeColor}; padding: 0.25rem 0.5rem; border-radius: 6px; text-transform: uppercase; flex-shrink: 0;">
-                        ${item.format}
+                    <span style="font-size: 0.72rem; font-weight: 700; background: ${badgeColor}15; color: ${badgeColor}; border: 1px solid ${badgeColor}30; padding: 0.25rem 0.5rem; border-radius: 6px; text-transform: uppercase; flex-shrink: 0;">
+                        ${statusText}
                     </span>
                 `;
                 historyList.appendChild(itemEl);
@@ -2261,10 +2747,13 @@
         function updateAnalyticsChart() {
             const history = JSON.parse(localStorage.getItem('download_history') || '[]');
             const totalCount = history.length;
-            document.getElementById('stat-total').textContent = totalCount;
+            
+            const totalEl = document.getElementById('stat-total');
+            if (totalEl) totalEl.textContent = totalCount;
             
             const savedMb = totalCount * 8.5;
-            document.getElementById('stat-saved').textContent = savedMb.toFixed(1) + ' MB';
+            const savedEl = document.getElementById('stat-saved');
+            if (savedEl) savedEl.textContent = savedMb.toFixed(1) + ' MB';
             
             const types = { video: 0, audio: 0, image: 0, animation: 0, text: 0 };
             history.forEach(item => {
@@ -2273,7 +2762,9 @@
                 }
             });
             
-            const ctx = document.getElementById('analytics-chart').getContext('2d');
+            const chartCanvas = document.getElementById('activity-history-chart');
+            if (!chartCanvas) return;
+            const ctx = chartCanvas.getContext('2d');
             
             if (analyticsChartInstance) {
                 analyticsChartInstance.destroy();
@@ -2343,9 +2834,7 @@
             localStorage.removeItem('download_history');
             renderHistory();
             showToast('Riwayat unduhan berhasil dibersihkan!');
-            if (currentTab === 'analytics') {
-                updateAnalyticsChart();
-            }
+            updateAnalyticsChart();
         }
 
         let grabbedItems = [];

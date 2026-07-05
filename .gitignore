@@ -1,0 +1,19 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Environments
+venv/
+.venv/
+env/
+.env/
+
+# App Downloads & Temp
+downloads/
+temp/
+*.log
+
+# Debian Build Temp
+build_deb/

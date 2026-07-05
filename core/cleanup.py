@@ -13,6 +13,13 @@ def start_cleanup_thread():
                 for filename in os.listdir(DOWNLOAD_DIR):
                     filepath = os.path.join(DOWNLOAD_DIR, filename)
                     if now - os.path.getmtime(filepath) > 600:
+                        # Skip if associated with an active download task
+                        prefix = filename[:32]
+                        task_id = filename if os.path.isdir(filepath) else prefix
+                        t = download_tasks.get(task_id)
+                        if t and t.get('status') in ['downloading', 'processing', 'scheduled']:
+                            continue
+                            
                         try:
                             if os.path.isfile(filepath):
                                 os.remove(filepath)

@@ -27,8 +27,8 @@ def grab_site_media():
         res.raise_for_status()
         html = res.text
         
-        img_urls = re.findall(r'src=["\']([^"\']+\.(?:jpg|jpeg|png|gif|webp|svg))["\']', html, re.I)
-        media_urls = re.findall(r'(?:href|src)=["\']([^"\']+\.(?:mp4|webm|mkv|mp3|wav|m4a|pdf|zip|rar))["\']', html, re.I)
+        img_urls = re.findall(r'src=["\']([^"\']+\.(?:jpg|jpeg|png|gif|webp|svg)(?:\?[^"\']*)?(?:#[^"\']*)?)["\']', html, re.I)
+        media_urls = re.findall(r'(?:href|src)=["\']([^"\']+\.(?:mp4|webm|mkv|mp3|wav|m4a|pdf|zip|rar)(?:\?[^"\']*)?(?:#[^"\']*)?)["\']', html, re.I)
         
         all_urls = list(set(img_urls + media_urls))
         results = []
