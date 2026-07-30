@@ -10,24 +10,26 @@ def start_cleanup_thread():
         while True:
             try:
                 now = time.time()
+                active_filepaths = set()
+                with download_tasks_lock:
+                    for t in download_tasks.values():
+                        if t and t.get('status') in ['downloading', 'processing', 'scheduled']:
+                            fp = t.get('filepath')
+                            if fp:
+                                active_filepaths.add(os.path.realpath(fp))
+                                
                 # Clean up downloaded files and directories older than 2 hours (7200 seconds)
                 for filename in os.listdir(DOWNLOAD_DIR):
                     filepath = os.path.join(DOWNLOAD_DIR, filename)
+                    if os.path.realpath(filepath) in active_filepaths:
+                        continue
+                        
                     try:
                         mtime = os.path.getmtime(filepath)
                     except OSError:
                         continue
                         
                     if now - mtime > 7200:
-                        # Extract 32-hex task_id prefix consistently
-                        task_id = filename[:32]
-                        
-                        with download_tasks_lock:
-                            t = download_tasks.get(task_id)
-                            
-                        if t and t.get('status') in ['downloading', 'processing', 'scheduled']:
-                            continue
-                            
                         try:
                             if os.path.isfile(filepath) or os.path.islink(filepath):
                                 os.remove(filepath)

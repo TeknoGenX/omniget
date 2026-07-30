@@ -23,8 +23,14 @@ def upload_torrent():
     safe_name = secure_filename(file.filename)
     if not safe_name or not safe_name.endswith('.torrent'):
         safe_name = 'download.torrent'
-    torrent_filename = f"{task_id}_{safe_name}"
+    torrent_filename = safe_name
     torrent_path = os.path.join(DOWNLOAD_DIR, torrent_filename)
+    counter = 1
+    base_n, ext_n = os.path.splitext(safe_name)
+    while os.path.exists(torrent_path):
+        torrent_filename = f"{base_n} ({counter}){ext_n}"
+        torrent_path = os.path.join(DOWNLOAD_DIR, torrent_filename)
+        counter += 1
     file.save(torrent_path)
     
     with download_tasks_lock:

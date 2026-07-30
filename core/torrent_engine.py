@@ -70,13 +70,22 @@ def run_aria2c_download(task_id, torrent_source, speed_limit=None):
         if len(items) == 1 and os.path.isfile(items[0]):
             downloaded_path = items[0]
             filename = os.path.basename(downloaded_path)
-            new_filename = f"{task_id}_{filename}"
-            new_filepath = os.path.join(DOWNLOAD_DIR, new_filename)
+            base_n, ext_n = os.path.splitext(filename)
+            new_filepath = os.path.join(DOWNLOAD_DIR, filename)
+            counter = 1
+            while os.path.exists(new_filepath):
+                filename = f"{base_n} ({counter}){ext_n}"
+                new_filepath = os.path.join(DOWNLOAD_DIR, filename)
+                counter += 1
             shutil.move(downloaded_path, new_filepath)
         else:
             filename = "Torrent_Files.zip"
-            new_filename = f"{task_id}_{filename}"
-            zip_base = os.path.join(DOWNLOAD_DIR, f"{task_id}_Torrent_Files")
+            zip_base = os.path.join(DOWNLOAD_DIR, "Torrent_Files")
+            counter = 1
+            while os.path.exists(f"{zip_base}.zip"):
+                zip_base = os.path.join(DOWNLOAD_DIR, f"Torrent_Files ({counter})")
+                filename = f"Torrent_Files ({counter}).zip"
+                counter += 1
             shutil.make_archive(zip_base, 'zip', task_download_dir)
             new_filepath = f"{zip_base}.zip"
         

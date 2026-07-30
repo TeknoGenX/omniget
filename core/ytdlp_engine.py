@@ -457,6 +457,19 @@ def run_yt_dlp_download(task_id, url, format_type, start_time=None, end_time=Non
             else:
                 download_name = f"{safe_title}.{actual_ext}"
             
+            # Save file directly with clean name (nama_file.ext)
+            final_filepath = os.path.join(DOWNLOAD_DIR, download_name)
+            base_n, ext_n = os.path.splitext(download_name)
+            counter = 1
+            while os.path.exists(final_filepath) and os.path.realpath(final_filepath) != os.path.realpath(filepath):
+                final_filepath = os.path.join(DOWNLOAD_DIR, f"{base_n} ({counter}){ext_n}")
+                counter += 1
+                
+            if filepath and os.path.exists(filepath) and os.path.realpath(filepath) != os.path.realpath(final_filepath):
+                os.rename(filepath, final_filepath)
+                filepath = final_filepath
+            download_name = os.path.basename(filepath)
+            
             with download_tasks_lock:
                 if task_id in download_tasks:
                     download_tasks[task_id].update({
@@ -522,7 +535,13 @@ def run_generic_download(task_id, url, speed_limit=None):
             base_name = filename if filename else "downloaded_file"
             filename = f"{base_name}.{ext}"
             
-        filepath = os.path.join(DOWNLOAD_DIR, f"{task_id}_{filename}")
+        filepath = os.path.join(DOWNLOAD_DIR, filename)
+        base_n, ext_n = os.path.splitext(filename)
+        counter = 1
+        while os.path.exists(filepath):
+            filename = f"{base_n} ({counter}){ext_n}"
+            filepath = os.path.join(DOWNLOAD_DIR, filename)
+            counter += 1
         
         # Parallel dynamic segmentation downloader with progress tracking
         multithreaded_download(url, filepath, task_id=task_id)
