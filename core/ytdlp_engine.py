@@ -388,11 +388,12 @@ def run_yt_dlp_download(task_id, url, format_type, start_time=None, end_time=Non
             except ValueError:
                 pass
             
-        # Force IPv4, enable JS runtimes (node/deno) and add timeout defaults
+        # Force IPv4, enable JS runtimes (node) and remote components for YouTube solver
         ydl_opts['source_address'] = '0.0.0.0'
         ydl_opts['nocheckcertificate'] = True
         ydl_opts['socket_timeout'] = 15
-        ydl_opts['js_runtimes'] = ['node', 'deno']
+        ydl_opts['js_runtimes'] = {'node': {}}
+        ydl_opts['remote_components'] = ['ejs:github']
         ydl_opts['extractor_args'] = {
             'youtubetab': {
                 'skip': ['authcheck']

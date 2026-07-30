@@ -49,7 +49,8 @@ def get_info():
             'socket_timeout': 15,
             'nocheckcertificate': True,
             'source_address': '0.0.0.0',
-            'js_runtimes': ['node', 'deno'],
+            'js_runtimes': {'node': {}},
+            'remote_components': ['ejs:github'],
             'ignoreerrors': True,
             'extractor_args': {
                 'youtubetab': {
@@ -358,7 +359,8 @@ def download_subtitle():
             'socket_timeout': 15,
             'nocheckcertificate': True,
             'source_address': '0.0.0.0',
-            'js_runtimes': ['node', 'deno'],
+            'js_runtimes': {'node': {}},
+            'remote_components': ['ejs:github'],
             'ignoreerrors': True,
             'extractor_args': {
                 'youtubetab': {
@@ -481,6 +483,9 @@ def search_videos():
             'socket_timeout': 15,
             'nocheckcertificate': True,
             'source_address': '0.0.0.0',
+            'js_runtimes': {'node': {}},
+            'remote_components': ['ejs:github'],
+            'ignoreerrors': True,
             'extractor_args': {
                 'youtubetab': {
                     'skip': ['authcheck']
