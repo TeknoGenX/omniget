@@ -332,7 +332,8 @@ def run_yt_dlp_download(task_id, url, format_type, start_time=None, end_time=Non
                     'writethumbnail': True,
                     'writesubtitles': True,
                     'writeautomaticsub': True,
-                    'subtitleslangs': ['id', 'en', 'all'],
+                    'subtitleslangs': ['id', 'en'],
+                    'ignoreerrors': True,
                     'postprocessors': [
                         {
                             'key': 'FFmpegExtractAudio',
@@ -355,7 +356,8 @@ def run_yt_dlp_download(task_id, url, format_type, start_time=None, end_time=Non
                     'outtmpl': outtmpl,
                     'writesubtitles': True,
                     'writeautomaticsub': True,
-                    'subtitleslangs': ['id', 'en', 'all'],
+                    'subtitleslangs': ['id', 'en'],
+                    'ignoreerrors': True,
                     'postprocessors': [
                         {
                             'key': 'FFmpegExtractAudio',
@@ -370,10 +372,11 @@ def run_yt_dlp_download(task_id, url, format_type, start_time=None, end_time=Non
                 }
         else:
             ydl_opts = {
-                'format': f'bestvideo[height<={height}]+bestaudio/best',
+                'format': f'bestvideo[height<={height}]+bestaudio/bestvideo+bestaudio/best',
                 'outtmpl': outtmpl,
                 'quiet': True,
                 'merge_output_format': ext,
+                'ignoreerrors': True,
                 'progress_hooks': [make_progress_hook(task_id)]
             }
             
@@ -385,10 +388,11 @@ def run_yt_dlp_download(task_id, url, format_type, start_time=None, end_time=Non
             except ValueError:
                 pass
             
-        # Force IPv4 and add timeout defaults to prevent connection timeouts on cloud hosts
+        # Force IPv4, enable JS runtimes (node/deno) and add timeout defaults
         ydl_opts['source_address'] = '0.0.0.0'
         ydl_opts['nocheckcertificate'] = True
         ydl_opts['socket_timeout'] = 15
+        ydl_opts['js_runtimes'] = ['node', 'deno']
         ydl_opts['extractor_args'] = {
             'youtubetab': {
                 'skip': ['authcheck']

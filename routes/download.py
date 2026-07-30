@@ -49,6 +49,8 @@ def get_info():
             'socket_timeout': 15,
             'nocheckcertificate': True,
             'source_address': '0.0.0.0',
+            'js_runtimes': ['node', 'deno'],
+            'ignoreerrors': True,
             'extractor_args': {
                 'youtubetab': {
                     'skip': ['authcheck']
@@ -356,6 +358,8 @@ def download_subtitle():
             'socket_timeout': 15,
             'nocheckcertificate': True,
             'source_address': '0.0.0.0',
+            'js_runtimes': ['node', 'deno'],
+            'ignoreerrors': True,
             'extractor_args': {
                 'youtubetab': {
                     'skip': ['authcheck']
