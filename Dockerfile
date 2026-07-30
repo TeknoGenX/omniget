@@ -27,5 +27,6 @@ RUN mkdir -p downloads
 # Expose port 7860 (required by Hugging Face Spaces)
 EXPOSE 7860
 
-# Run using gunicorn for production, bound to port 7860
-CMD ["gunicorn", "--workers", "2", "--threads", "4", "--bind", "0.0.0.0:7860", "app:app"]
+# Run using gunicorn for production, bound to port 7860 (single process worker to preserve in-memory task state)
+CMD ["gunicorn", "--workers", "1", "--threads", "8", "--bind", "0.0.0.0:7860", "app:app"]
+

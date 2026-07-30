@@ -1,9 +1,19 @@
-# Ignore everything by default
-/*
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
 
-# Except the omniget release folder
-!/omniget/
-!/omniget/**
+# Environment and temporary files
+.env
+.venv
+venv/
+ENV/
+downloads/
+build_deb/
+*.deb
 
-# Except this .gitignore file
-!.gitignore
+# IDE and OS
+.DS_Store
+.vscode/
+.idea/
+
