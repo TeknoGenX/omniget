@@ -117,6 +117,7 @@ def get_info():
                     'name': lang_name
                 })
 
+            view_count = info.get('view_count') or 0
             return jsonify({
                 'success': True,
                 'is_playlist': False,
@@ -124,7 +125,7 @@ def get_info():
                 'thumbnail': info.get('thumbnail', ''),
                 'duration': duration_str,
                 'uploader': info.get('uploader', 'Unknown'),
-                'views': f"{info.get('view_count', 0):,}",
+                'views': f"{view_count:,}",
                 'url': url,
                 'subtitles': subtitles_list
             })
