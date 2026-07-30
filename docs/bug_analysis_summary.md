@@ -76,3 +76,23 @@ Aplikasi Anda kini sudah berada dalam kondisi yang sangat aman, stabil, dan siap
 * **Status**: ✅ **Selesai Diperbaiki**
 * **Temuan**: Penguncian versi `yt-dlp==2024.03.10` di requirements.txt menyebabkan server gagal membaca struktur pemutaran video YouTube terbaru di tahun 2026.
 * **Perbaikan**: Menghapus penguncian versi spesifik pada pustaka `yt-dlp` di `requirements.txt` agar server selalu memasang versi terbaru `yt-dlp` rilis tahun 2026 saat melakukan *build*.
+
+### 14. Penamaan Ekstensi Berkas Non-Media Menjadi .unknown_video
+* **Status**: ✅ **Selesai Diperbaiki**
+* **Temuan**: Mengunduh berkas mentah seperti `.iso`, `.zip`, `.exe`, `.deb` melalui form utama memicu extractor *Generic* `yt-dlp` yang menempelkan ekstensi `.unknown_video`.
+* **Perbaikan**: Menambahkan *Smart URL Router* di `routes/download.py` untuk mengalihkan URL berkas non-media langsung ke `run_generic_download()` dan menggunakan parser `Content-Disposition` serta `mimetypes`.
+
+### 15. Pemutusan Unduhan Berkas Besar karena Cleanup Timeout 10 Menit
+* **Status**: ✅ **Selesai Diperbaiki**
+* **Temuan**: Berkas temporer berukuran besar (misal 4 GB ISO) yang diunduh pengguna berkecepatan lambat terhapus di tengah jalan oleh daemon cleanup.
+* **Perbaikan**: Masa aktif berkas temporer diperpanjang dari 10 menit menjadi **2 jam (7200 detik)**.
+
+### 16. Torrent Multi-File / Folder Terpotong
+* **Status**: ✅ **Selesai Diperbaiki**
+* **Temuan**: Pengunduhan torrent yang berisi banyak berkas hanya menyalin satu berkas dan mengabaikan berkas lainnya.
+* **Perbaikan**: Memperbarui `core/torrent_engine.py` untuk mengemas seluruh berkas/folder torrent menjadi satu arsip `.zip` (`Torrent_Files.zip`) secara otomatis.
+
+### 17. Fallback MIME Type Terbatas pada Generic Downloader
+* **Status**: ✅ **Selesai Diperbaiki**
+* **Temuan**: Berkas tanpa ekstensi pada URL diubah namanya menjadi `.jpg` secara default.
+* **Perbaikan**: Mengintegrasikan `mimetypes.guess_extension()` untuk mendeteksi tipe MIME berkas mentah secara dinamis.
