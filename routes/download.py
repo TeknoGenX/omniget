@@ -421,6 +421,7 @@ def download_thumbnail():
         res.raise_for_status()
         
         safe_title = clean_filename(title) or 'thumbnail'
+        safe_title = re.sub(r'\.(jpg|jpeg|png|webp|gif)$', '', safe_title, flags=re.I)
         filename = f"{safe_title}_thumbnail.jpg"
         
         def generate():

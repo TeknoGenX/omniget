@@ -20,7 +20,9 @@ def upload_torrent():
         
     speed_limit = request.form.get('speed_limit')
     task_id = uuid.uuid4().hex
-    safe_name = secure_filename(file.filename) or 'download.torrent'
+    safe_name = secure_filename(file.filename)
+    if not safe_name or not safe_name.endswith('.torrent'):
+        safe_name = 'download.torrent'
     torrent_filename = f"{task_id}_{safe_name}"
     torrent_path = os.path.join(DOWNLOAD_DIR, torrent_filename)
     file.save(torrent_path)
